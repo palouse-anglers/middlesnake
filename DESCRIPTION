@@ -15,3 +15,7 @@ Imports:
     dmcognigen
 Remotes:
     simulations-plus/dmcognigen
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
