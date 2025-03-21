@@ -14,6 +14,63 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message = FALSE, warning = FALSE}
 library(middlesnake)
+library(dmcognigen)
+library(dplyr)
+library(DT)
+library(leaflet)
+library(sf)
+library(geojsonsf)
 ```
+
+# Load Columbia County HUC12 watersheds layer from Geoserver
+```{r message = FALSE, warning = FALSE}
+
+columbia_huc12_url <- "http://142.93.92.104:8080/geoserver/Columbia/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Columbia:all_columbia_huc_12s&outputFormat=application/json"
+
+# Convert GeoJSON to an sf object
+# drop geometry, we only need watershed names here
+columbia_huc12s <- geojson_sf(columbia_huc12_url) %>%
+    sf::st_drop_geometry() %>%
+    distinct(hc12_name,huc12) 
+
+```
+
+
+# Load NRCS Practices spreadsheet
+Dataset provided by SCC 
+```{r}
+
+data_path <- system.file("extdata", "20040101-20240430 NRCS Practices_edited_v3.xlsx", package = "middlesnake")
+
+nrcs_data <- readxl::read_xlsx(data_path) %>%
+  janitor::clean_names()
+```
+
+How many unique watersheds in file?
+```{r}
+nrcs_data %>%
+    pull(huc12) %>%
+    unique() %>%
+    length()
+```
+<div class="alert alert-warning">
+  <strong>Warning:</strong> Practice code 430 has > 1 practice names .
+</div>
+
+```{r}
+nrcs_data %>%
+    cnt(practice_code,n_distinct_vars = practice_name) %>%
+    filter(N_practice_name>1)
+```
+
+```{r}
+nrcs_data %>%
+    filter(practice_code==430) %>%
+    distinct(practice_name)
+```
+
+
+
+
