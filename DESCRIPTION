@@ -16,5 +16,6 @@ Imports:
 Remotes:
     simulations-plus/dmcognigen
 Suggests: 
-    quarto
-VignetteBuilder: quarto
+    knitr,
+    rmarkdown
+VignetteBuilder: rmarkdown
