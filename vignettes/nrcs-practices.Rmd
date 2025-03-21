@@ -62,7 +62,7 @@ nrcs_data %>%
 ```{r}
 nrcs_data %>%
     cnt(practice_code,n_distinct_vars = practice_name) %>%
-    filter(N_practice_name>1)
+    filter(n_practice_name>1)
 ```
 
 ```{r}
