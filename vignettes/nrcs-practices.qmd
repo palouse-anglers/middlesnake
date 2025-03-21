@@ -1,0 +1,19 @@
+---
+title: "NRCS Practices"
+author: "Steve Hummel"
+format: html
+vignette: >
+  %\VignetteIndexEntry{My Quarto Vignette}
+  %\VignetteEngine{quarto}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+---
+
+```{r}
+library(middlesnake)
+library(leaflet)
+library(geojsonsf)
+library(tidyverse,warn.conflicts = FALSE)
+```
+
