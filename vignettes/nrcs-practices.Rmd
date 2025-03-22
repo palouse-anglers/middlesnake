@@ -1,6 +1,11 @@
 ---
 title: "nrcs-practices"
-output: rmarkdown::html_vignette
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    code_folding: show
+    number_sections: true
 vignette: >
   %\VignetteIndexEntry{nrcs-practices}
   %\VignetteEngine{knitr::rmarkdown}
