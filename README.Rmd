@@ -15,7 +15,10 @@ knitr::opts_chunk$set(
 
 # middlesnake
 
+![](man/figures/logo.png)
+
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of middlesnake is to help crunch data in WRIA 35
@@ -28,4 +31,3 @@ You can install the development version of middlesnake from [GitHub](https://git
 # install.packages("pak")
 pak::pak("palouse-anglers/middlesnake")
 ```
-

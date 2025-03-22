@@ -3,6 +3,8 @@
 
 # middlesnake
 
+![](man/figures/logo.png)
+
 <!-- badges: start -->
 <!-- badges: end -->
 
