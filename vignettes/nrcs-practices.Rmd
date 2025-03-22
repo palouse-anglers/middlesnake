@@ -1,21 +1,21 @@
 ---
 title: "nrcs-practices"
+date: '`r format(Sys.Date(), "%B %d %Y")`'
 output:
-  html_document:
+  rmarkdown::html_vignette:
     toc: true
-    toc_depth: 3
-    code_folding: show
-    number_sections: true
-vignette: >
-  %\VignetteIndexEntry{nrcs-practices}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+    toc_depth: 2
+    vignette: >
+      %\VignetteIndexEntry{nrcs-practices}
+      %\VignetteEngine{knitr::rmarkdown}
+      %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.align = "center"
 )
 ```
 
