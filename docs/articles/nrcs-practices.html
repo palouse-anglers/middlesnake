@@ -77,7 +77,8 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT" class="external-link">DT</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/leaflet/" class="external-link">leaflet</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SymbolixAU/geojsonsf" class="external-link">geojsonsf</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SymbolixAU/geojsonsf" class="external-link">geojsonsf</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT" class="external-link">DT</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="load-columbia-county-huc12-watersheds-layer-from-geoserver">Load Columbia County HUC12 watersheds layer from Geoserver<a class="anchor" aria-label="anchor" href="#load-columbia-county-huc12-watersheds-layer-from-geoserver"></a>
 </h2>
@@ -129,6 +130,58 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Irrigation Pipeline        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Irrigation Water Conveyance</span></span></code></pre></div>
+<p>Filter the NRCS data to only include HUC12 in Columbia County</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op">&lt;-</span>  <span class="va">nrcs_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">huc12</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">columbia_huc12s</span><span class="op">$</span><span class="va">huc12</span> <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>same_code<span class="op">=</span><span class="va">land_unit_has_multiple_instances_of_same_practice_code</span>,</span>
+<span>         same_code_and_year<span class="op">=</span><span class="va">land_unit_has_multiple_instances_of_same_practice_code_applied_the_same_year</span><span class="op">)</span></span></code></pre></div>
+<p>How many Huc12s in Columbia County?</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span>n_distinct_vars <span class="op">=</span> <span class="va">huc12</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
+<span><span class="co">#&gt;   n_huc12     n n_cumulative</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      36 <span style="text-decoration: underline;">13</span>516        <span style="text-decoration: underline;">13</span>516</span></span></code></pre></div>
+<p>How land unit duplicates?</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">same_code</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">#&gt;   same_code     n n_cumulative</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> no         <span style="text-decoration: underline;">3</span>315         <span style="text-decoration: underline;">3</span>315</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> yes       <span style="text-decoration: underline;">10</span>201        <span style="text-decoration: underline;">13</span>516</span></span></code></pre></div>
+<p>Top 20 examples of most practice code duplicates</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">land_unit_id</span>,<span class="va">applied_year</span>,n_distinct_vars <span class="op">=</span> <span class="va">practice_code</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_practice_code</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 5</span></span></span>
+<span><span class="co">#&gt;    land_unit_id                  applied_year n_practice_code     n n_cumulative</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>010               9     9         <span style="text-decoration: underline;">1</span>613</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>011               9     9         <span style="text-decoration: underline;">1</span>622</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>012               9     9         <span style="text-decoration: underline;">1</span>631</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>013               9     9         <span style="text-decoration: underline;">1</span>640</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>014               9     9         <span style="text-decoration: underline;">1</span>649</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>010               9     9        <span style="text-decoration: underline;">10</span>183</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>011               9     9        <span style="text-decoration: underline;">10</span>192</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>012               9     9        <span style="text-decoration: underline;">10</span>201</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>013               9     9        <span style="text-decoration: underline;">10</span>210</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>014               9     9        <span style="text-decoration: underline;">10</span>219</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> {E9FF2BE2-08D0-4025-A79C-174…         <span style="text-decoration: underline;">2</span>016               8     8        <span style="text-decoration: underline;">12</span>396</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> {2F6D84DC-A1F0-4D37-8558-B6E…         <span style="text-decoration: underline;">2</span>022               7    10         <span style="text-decoration: underline;">2</span>522</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> {469DB704-8FA6-4439-8213-963…         <span style="text-decoration: underline;">2</span>013               7    18         <span style="text-decoration: underline;">3</span>623</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> {857A3952-0641-41CA-8EA0-16E…         <span style="text-decoration: underline;">2</span>013               7    15         <span style="text-decoration: underline;">6</span>808</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> {03F66BFF-3263-43BC-BA99-D7D…         <span style="text-decoration: underline;">2</span>006               6     6          203</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> {0B238478-C34F-4EAC-A0CC-BDB…         <span style="text-decoration: underline;">2</span>007               6     6          561</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> {0CD4A764-0227-4E80-AD4C-927…         <span style="text-decoration: underline;">2</span>007               6     6          653</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> {131BAF71-F051-4D0D-B4FD-039…         <span style="text-decoration: underline;">2</span>006               6     6          903</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> {16AC9FB6-D71D-441D-A187-D99…         <span style="text-decoration: underline;">2</span>006               6     6         <span style="text-decoration: underline;">1</span>112</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> {1A7EBCBC-7A6B-48FF-9348-9CF…         <span style="text-decoration: underline;">2</span>021               6     6         <span style="text-decoration: underline;">1</span>287</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

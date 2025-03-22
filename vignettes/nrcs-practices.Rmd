@@ -27,6 +27,7 @@ library(DT)
 library(leaflet)
 library(sf)
 library(geojsonsf)
+library(DT)
 ```
 
 # Load Columbia County HUC12 watersheds layer from Geoserver
@@ -74,6 +75,34 @@ nrcs_data %>%
 nrcs_data %>%
     filter(practice_code==430) %>%
     distinct(practice_name)
+```
+
+Filter the NRCS data to only include HUC12 in Columbia County
+```{r}
+nrcs_columbia <-  nrcs_data %>%
+  filter(huc12 %in% columbia_huc12s$huc12 ) %>%
+  rename(same_code=land_unit_has_multiple_instances_of_same_practice_code,
+         same_code_and_year=land_unit_has_multiple_instances_of_same_practice_code_applied_the_same_year)
+```
+
+How many Huc12s in Columbia County?
+```{r}
+nrcs_columbia %>%
+  cnt(n_distinct_vars = huc12)
+```
+How land unit duplicates?
+```{r}
+nrcs_columbia %>%
+    cnt(same_code)
+```
+
+Top 20 examples of most practice code duplicates
+```{r}
+nrcs_columbia %>%
+cnt(land_unit_id,applied_year,n_distinct_vars = practice_code) %>%
+arrange(desc(n_practice_code)) %>%
+slice(1:20)
+
 ```
 
 

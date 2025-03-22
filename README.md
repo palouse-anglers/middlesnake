@@ -3,7 +3,7 @@
 
 # middlesnake
 
-![](man/figures/logo.png)
+<img src="man/figures/logo.png" width="300" />
 
 <!-- badges: start -->
 <!-- badges: end -->
