@@ -31,6 +31,7 @@ library(DT)
 ```
 
 # Load Columbia County HUC12 watersheds layer from Geoserver
+
 ```{r message = FALSE, warning = FALSE}
 
 columbia_huc12_url <- "http://142.93.92.104:8080/geoserver/Columbia/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Columbia:all_columbia_huc_12s&outputFormat=application/json"
@@ -43,9 +44,10 @@ columbia_huc12s <- geojson_sf(columbia_huc12_url) %>%
 
 ```
 
-
 # Load NRCS Practices spreadsheet
-Dataset provided by SCC 
+
+Dataset provided by SCC
+
 ```{r}
 
 data_path <- system.file("extdata", "20040101-20240430 NRCS Practices_edited_v3.xlsx", package = "middlesnake")
@@ -55,15 +57,17 @@ nrcs_data <- readxl::read_xlsx(data_path) %>%
 ```
 
 How many unique watersheds in file?
+
 ```{r}
 nrcs_data %>%
     pull(huc12) %>%
     unique() %>%
     length()
 ```
-<div class="alert alert-warning">
-  <strong>Warning:</strong> Practice code 430 has > 1 practice names .
-</div>
+
+::: {.alert .alert-warning}
+<strong>Warning:</strong> Practice code 430 has \> 1 practice names .
+:::
 
 ```{r}
 nrcs_data %>%
@@ -78,6 +82,7 @@ nrcs_data %>%
 ```
 
 Filter the NRCS data to only include HUC12 in Columbia County
+
 ```{r}
 nrcs_columbia <-  nrcs_data %>%
   filter(huc12 %in% columbia_huc12s$huc12 ) %>%
@@ -86,17 +91,117 @@ nrcs_columbia <-  nrcs_data %>%
 ```
 
 How many Huc12s in Columbia County?
+
 ```{r}
 nrcs_columbia %>%
   cnt(n_distinct_vars = huc12)
 ```
-How land unit duplicates?
+
+# Checking Duplicates
+
+> If the same practice code is applied multiple times on the same land unit on the same year, the data is most likely duplicated and should be removed before summing applied amounts
+>
+> -NRCS Conservation Practices Data: Overview and FAQs Oct-2024
+
+All `land_unit_id` have 1 distinct huc12 in Columbia County
 ```{r}
 nrcs_columbia %>%
-    cnt(same_code)
+    cnt(land_unit_id,n_distinct_vars = huc12) %>%
+   filter(n_huc12>1)
 ```
 
+
+In Columbia County we have 9084 distinct records by `land_unit_id`,`applied_year`, and `practice_code`
+
+```{r}
+nrcs_columbia %>%
+    cnt(n_distinct_vars = c(land_unit_id,applied_year,practice_code))
+```
+
+Check that distinct records by `land_unit_id`,`applied_year`, and `practice_code` match distinct by `applied_amount`, `land_unit_id`,`applied_year`, and `practice_code`
+
+```{r}
+nrcs_columbia %>%
+    cnt(n_distinct_vars = c(land_unit_id,applied_amount,applied_year,practice_code))
+```
+
+```{r}
+duplicated_practices <- nrcs_columbia %>%
+    group_by(land_unit_id,practice_code,applied_year) %>%
+    mutate(duplicates_id_yr_code=1:n()) %>%
+    ungroup() %>%
+    group_by(land_unit_id,practice_code,applied_year,applied_amount) %>%
+    mutate(duplicates_id_yr_code_amt=1:n()) %>%
+    ungroup()
+```
+
+```{r}
+ids_where_amt_is_different <- duplicated_practices %>%
+     filter(duplicates_id_yr_code>1) %>%
+     filter(!duplicates_id_yr_code==duplicates_id_yr_code_amt) %>%
+     pull(land_unit_id) %>%
+     unique()
+```
+
+listings
+```{r}
+
+duplicated_listings <- duplicated_practices %>%
+    filter(land_unit_id %in% ids_where_amt_is_different) %>%
+    select(land_unit_id,practice_name,applied_amount,applied_date,applied_year,starts_with("dup"), program) %>%
+    arrange(land_unit_id,applied_year)%>%
+    split(~land_unit_id)
+
+```
+
+## Discussion
+
+<div class="alert alert-info" role="alert">
+<strong>Note:</strong> Consider `applied_amount` and or `program` before removing/collapsing
+duplicates by `land_unit_id`,`applied_year`, and `practice_code`
+</div>
+
+
+### Example 1
+Could be a duplicate but amount different
+```{r}
+DT::datatable(duplicated_listings[["{C7966B9E-B2E4-4FED-97BA-8C242B40C33A}"]])
+```
+
+
+### Example 2
+```{r}
+DT::datatable(duplicated_listings[["{EA8850AA-582F-4603-8270-0963585DF9E5}"]])
+```
+
+
+### Example 3
+Keep 77 and 102.7 ?
+```{r}
+DT::datatable(duplicated_listings[["{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}"]])
+```
+
+### Example 4
+
+Look at Upland Wildlife Habitat Management in 2010. Not considering applied amount would probably remove the record where applied amount is 1
+```{r}
+DT::datatable(duplicated_listings[["{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}"]])
+```
+
+
+### Example 5
+
+Look at Forest Stand Improvement in 2023. 
+Removing duplicates of either 1.1 or 2.9 is probably incorrect.
+Forest Stand Improvement 2023 sum = 4 
+Forest Stand Improvement 2022 sum = 4 
+```{r}
+DT::datatable(duplicated_listings[["{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}"]])
+```
+
+
 Top 20 examples of most practice code duplicates
+
 ```{r}
 nrcs_columbia %>%
 cnt(land_unit_id,applied_year,n_distinct_vars = practice_code) %>%
@@ -104,7 +209,3 @@ arrange(desc(n_practice_code)) %>%
 slice(1:20)
 
 ```
-
-
-
-
