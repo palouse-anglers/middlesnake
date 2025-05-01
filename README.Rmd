@@ -19,6 +19,10 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
+
+[![R-CMD-check](https://github.com/palouse-anglers/middlesnake/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/palouse-anglers/middlesnake/actions/workflows/R-CMD-check.yaml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
+[![pkgdown site](https://img.shields.io/badge/pkgdown-online-brightgreen.svg)](https://palouse-anglers.github.io/middlesnake/)
 <!-- badges: end -->
 
 The goal of middlesnake is to help crunch data in WRIA 35
