@@ -2,7 +2,7 @@
 % Please edit documentation in R/clean_nrcs_data.R
 \name{clean_nrcs_data}
 \alias{clean_nrcs_data}
-\title{Clean and Deduplicate NRCS Data from an Excel Workbook}
+\title{Clean and Consolidate Duplicated NRCS Practices Data}
 \usage{
 clean_nrcs_data(dataset_path, huc_12_codes)
 }
@@ -23,7 +23,7 @@ A \code{data.frame} containing:
 \description{
 This function reads an Excel file containing NRCS practice data, standardizes column names,
 checks whether the user-supplied HUC12 watershed codes are present, flags duplicated practice
-entries, and returns a cleaned, deduplicated dataset with total applied amounts per group.
+entries, and returns a cleaned, dataset with total applied amounts per group.
 }
 \details{
 Duplicate records are defined in two stages:
@@ -32,9 +32,11 @@ Duplicate records are defined in two stages:
 \item By the same fields plus \code{applied_amount} (\code{duplicates_id_yr_code_amt})
 }
 
-If multiple records exist with the same identifiers, they are flagged, summed, and collapsed
-to a single row per group. All variables from the first record in each group are retained.
-CLI messages summarize dataset dimensions, duplicate detection, and rows flagged for removal.
+If \code{applied_amount}  has different values for the same\code{land_unit_id}, \code{practice_code}, and \code{applied_year},
+then \code{applied_amount} is summed
+
+If \code{applied_amount}  has multiple of the same values by \code{land_unit_id}, \code{practice_code}, and \code{applied_year},
+then those records are considered true duplicates and removed
 
 The original dataset names will be cleaned to lowercase snake_case
 using \code{janitor::clean_names()}.

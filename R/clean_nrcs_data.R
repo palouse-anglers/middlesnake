@@ -1,16 +1,20 @@
-#' Clean and Deduplicate NRCS Data from an Excel Workbook
+#' Clean and Consolidate Duplicated NRCS Practices Data
 #'
 #' This function reads an Excel file containing NRCS practice data, standardizes column names,
 #' checks whether the user-supplied HUC12 watershed codes are present, flags duplicated practice
-#' entries, and returns a cleaned, deduplicated dataset with total applied amounts per group.
+#' entries, and returns a cleaned, dataset with total applied amounts per group.
+#
 #'
 #' Duplicate records are defined in two stages:
 #' 1. By `land_unit_id`, `practice_code`, and `applied_year` (`duplicates_id_yr_code`)
 #' 2. By the same fields plus `applied_amount` (`duplicates_id_yr_code_amt`)
 #'
-#' If multiple records exist with the same identifiers, they are flagged, summed, and collapsed
-#' to a single row per group. All variables from the first record in each group are retained.
-#' CLI messages summarize dataset dimensions, duplicate detection, and rows flagged for removal.
+#' If `applied_amount`  has different values for the same`land_unit_id`, `practice_code`, and `applied_year`,
+#' then `applied_amount` is summed
+#'
+#' If `applied_amount`  has multiple of the same values by `land_unit_id`, `practice_code`, and `applied_year`,
+#' then those records are considered true duplicates and removed
+#'
 #'
 #' @param dataset_path A character string indicating the path to the `.xlsx` Excel file to read.
 #' @param huc_12_codes A character vector of HUC12 watershed codes to verify against the dataset.
