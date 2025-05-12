@@ -33,7 +33,7 @@ This function:
 
 swifd_multi <- get_swifd_by_county(c("Columbia", "Garfield"))
 
-get_swifd_by_county(c("Columbia", "Garfield")), save_path = "data/southwest_swifd")
+get_swifd_by_county(c("Columbia", "Garfield"), save_path = "data/southwest_swifd")
 }
 
 }
