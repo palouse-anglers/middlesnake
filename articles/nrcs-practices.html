@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>nrcs-practices • middlesnake</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -51,12 +56,16 @@
 
 
 
-
-<div class="row">
+<link href="nrcs-practices_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="nrcs-practices_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="nrcs-practices_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="nrcs-practices_files/datatables-binding-0.33/datatables.js"></script><link href="nrcs-practices_files/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="nrcs-practices_files/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="nrcs-practices_files/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="nrcs-practices_files/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="nrcs-practices_files/crosstalk-1.2.1/js/crosstalk.min.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>nrcs-practices</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>nrcs-practices</h1>
             
+            <h4 data-toc-skip class="date">May 12 2025</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/palouse-anglers/middlesnake/blob/master/vignettes/nrcs-practices.Rmd" class="external-link"><code>vignettes/nrcs-practices.Rmd</code></a></small>
       <div class="d-none name"><code>nrcs-practices.Rmd</code></div>
@@ -65,8 +74,236 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/palouse-anglers/middlesnake" class="external-link">middlesnake</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/palouse-anglers/middlesnake" class="external-link">middlesnake</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://simulations-plus.github.io/dmcognigen/" class="external-link">dmcognigen</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT" class="external-link">DT</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/leaflet/" class="external-link">leaflet</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SymbolixAU/geojsonsf" class="external-link">geojsonsf</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT" class="external-link">DT</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="load-columbia-county-huc12-watersheds-layer-from-geoserver">Load Columbia County HUC12 watersheds layer from Geoserver<a class="anchor" aria-label="anchor" href="#load-columbia-county-huc12-watersheds-layer-from-geoserver"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">columbia_huc12_url</span> <span class="op">&lt;-</span> <span class="st">"http://142.93.92.104:8080/geoserver/Columbia/ows?service=WFS&amp;version=1.0.0&amp;request=GetFeature&amp;typeName=Columbia:all_columbia_huc_12s&amp;outputFormat=application/json"</span></span>
+<span></span>
+<span><span class="co"># Convert GeoJSON to an sf object</span></span>
+<span><span class="co"># drop geometry, we only need watershed names here</span></span>
+<span><span class="va">columbia_huc12s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geojsonsf/man/geojson_sf.html" class="external-link">geojson_sf</a></span><span class="op">(</span><span class="va">columbia_huc12_url</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">hc12_name</span>,<span class="va">huc12</span><span class="op">)</span> </span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="load-nrcs-practices-spreadsheet">Load NRCS Practices spreadsheet<a class="anchor" aria-label="anchor" href="#load-nrcs-practices-spreadsheet"></a>
+</h2>
+<p>Dataset provided by SCC</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"20040101-20240430 NRCS Practices_edited_v3.xlsx"</span>, package <span class="op">=</span> <span class="st">"middlesnake"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">nrcs_data</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html" class="external-link">clean_names</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>How many unique watersheds in file?</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">huc12</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1289</span></span></code></pre></div>
+<div class="alert alert-warning">
+<p><strong>Warning:</strong> Practice code 430 has &gt; 1 practice names
+.</p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">practice_code</span>,n_distinct_vars <span class="op">=</span> <span class="va">practice_name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n_practice_name</span><span class="op">&gt;</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
+<span><span class="co">#&gt;   practice_code n_practice_name     n n_cumulative</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 430                         2  <span style="text-decoration: underline;">1</span>106       <span style="text-decoration: underline;">105</span>975</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">practice_code</span><span class="op">==</span><span class="fl">430</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">practice_name</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 1</span></span></span>
+<span><span class="co">#&gt;   practice_name              </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Irrigation Pipeline        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Irrigation Water Conveyance</span></span></code></pre></div>
+<p>Filter the NRCS data to only include HUC12 in Columbia County</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op">&lt;-</span>  <span class="va">nrcs_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">huc12</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">columbia_huc12s</span><span class="op">$</span><span class="va">huc12</span> <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>same_code<span class="op">=</span><span class="va">land_unit_has_multiple_instances_of_same_practice_code</span>,</span>
+<span>         same_code_and_year<span class="op">=</span><span class="va">land_unit_has_multiple_instances_of_same_practice_code_applied_the_same_year</span><span class="op">)</span></span></code></pre></div>
+<p>How many Huc12s in Columbia County?</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span>n_distinct_vars <span class="op">=</span> <span class="va">huc12</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
+<span><span class="co">#&gt;   n_huc12     n n_cumulative</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      36 <span style="text-decoration: underline;">13</span>516        <span style="text-decoration: underline;">13</span>516</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="checking-duplicates">Checking Duplicates<a class="anchor" aria-label="anchor" href="#checking-duplicates"></a>
+</h2>
+<blockquote>
+<p>If the same practice code is applied multiple times on the same land
+unit on the same year, the data is most likely duplicated and should be
+removed before summing applied amounts</p>
+<p>-NRCS Conservation Practices Data: Overview and FAQs Oct-2024</p>
+</blockquote>
+<p>All <code>land_unit_id</code> have 1 distinct huc12 in Columbia
+County</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">land_unit_id</span>,n_distinct_vars <span class="op">=</span> <span class="va">huc12</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n_huc12</span><span class="op">&gt;</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 variables: land_unit_id &lt;chr&gt;, n_huc12 &lt;int&gt;, n &lt;int&gt;, n_cumulative &lt;int&gt;</span></span></span></code></pre></div>
+<p>In Columbia County we have 9084 distinct records by
+<code>land_unit_id</code>,<code>applied_year</code>, and
+<code>practice_code</code></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span>n_distinct_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">land_unit_id</span>,<span class="va">applied_year</span>,<span class="va">practice_code</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
+<span><span class="co">#&gt;   n_land_unit_id n_applied_year n_practice_code n_land_unit_id_applied_y…¹     n</span></span>
+<span><span class="co">#&gt;            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           <span style="text-decoration: underline;">2</span>408             21             112                       <span style="text-decoration: underline;">9</span>084 <span style="text-decoration: underline;">13</span>516</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​n_land_unit_id_applied_year_practice_code</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: n_cumulative &lt;int&gt;</span></span></span></code></pre></div>
+<p>Check that distinct records by
+<code>land_unit_id</code>,<code>applied_year</code>, and
+<code>practice_code</code> match distinct by
+<code>applied_amount</code>,
+<code>land_unit_id</code>,<code>applied_year</code>, and
+<code>practice_code</code></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span>n_distinct_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">land_unit_id</span>,<span class="va">applied_amount</span>,<span class="va">applied_year</span>,<span class="va">practice_code</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
+<span><span class="co">#&gt;   n_land_unit_id n_applied_amount n_applied_year n_practice_code</span></span>
+<span><span class="co">#&gt;            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           <span style="text-decoration: underline;">2</span>408             <span style="text-decoration: underline;">1</span>146             21             112</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   n_land_unit_id_applied_amount_applied_year_practice_code &lt;int&gt;, n &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   n_cumulative &lt;int&gt;</span></span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">duplicated_practices</span> <span class="op">&lt;-</span> <span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">land_unit_id</span>,<span class="va">practice_code</span>,<span class="va">applied_year</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>duplicates_id_yr_code<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">land_unit_id</span>,<span class="va">practice_code</span>,<span class="va">applied_year</span>,<span class="va">applied_amount</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>duplicates_id_yr_code_amt<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ids_where_amt_is_different</span> <span class="op">&lt;-</span> <span class="va">duplicated_practices</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">duplicates_id_yr_code</span><span class="op">&gt;</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">duplicates_id_yr_code</span><span class="op">==</span><span class="va">duplicates_id_yr_code_amt</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">land_unit_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>listings</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">duplicated_listings</span> <span class="op">&lt;-</span> <span class="va">duplicated_practices</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">land_unit_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">ids_where_amt_is_different</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">land_unit_id</span>,<span class="va">practice_name</span>,<span class="va">applied_amount</span>,<span class="va">applied_date</span>,<span class="va">applied_year</span>,<span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"dup"</span><span class="op">)</span>, <span class="va">program</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">land_unit_id</span>,<span class="va">applied_year</span><span class="op">)</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="op">~</span><span class="va">land_unit_id</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="discussion">Discussion<a class="anchor" aria-label="anchor" href="#discussion"></a>
+</h3>
+<div class="alert alert-info" role="alert">
+<p><strong>Note:</strong> Consider <code>applied_amount</code> and or
+<code>program</code> before removing/collapsing duplicates by
+<code>land_unit_id</code>,<code>applied_year</code>, and
+<code>practice_code</code></p>
+</div>
+<div class="section level4">
+<h4 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
+</h4>
+<p>Could be a duplicate but amount different</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable</a></span><span class="op">(</span><span class="va">duplicated_listings</span><span class="op">[[</span><span class="st">"{C7966B9E-B2E4-4FED-97BA-8C242B40C33A}"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"filter":"none","vertical":false,"data":[["1","2"],["{C7966B9E-B2E4-4FED-97BA-8C242B40C33A}","{C7966B9E-B2E4-4FED-97BA-8C242B40C33A}"],["Biochar production from woody residue","Biochar production from woody residue"],[8.199999999999999,13.2],["2023-09-21T00:00:00Z","2023-09-21T00:00:00Z"],[2023,2023],[1,2],[1,1],["CStwP","CStwP"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>land_unit_id<\/th>\n      <th>practice_name<\/th>\n      <th>applied_amount<\/th>\n      <th>applied_date<\/th>\n      <th>applied_year<\/th>\n      <th>duplicates_id_yr_code<\/th>\n      <th>duplicates_id_yr_code_amt<\/th>\n      <th>program<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[3,5,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"land_unit_id","targets":1},{"name":"practice_name","targets":2},{"name":"applied_amount","targets":3},{"name":"applied_date","targets":4},{"name":"applied_year","targets":5},{"name":"duplicates_id_yr_code","targets":6},{"name":"duplicates_id_yr_code_amt","targets":7},{"name":"program","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level4">
+<h4 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
+</h4>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable</a></span><span class="op">(</span><span class="va">duplicated_listings</span><span class="op">[[</span><span class="st">"{EA8850AA-582F-4603-8270-0963585DF9E5}"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e5c8c404fe174e4c81bd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],["{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}","{EA8850AA-582F-4603-8270-0963585DF9E5}"],["Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift","Use drift reducing nozzles, low pressures, lower boom height and adjuvants to reduce pesticide drift"],[8.5,10.6,32.1,8.5,10.6,32.1,8.5,10.6,32.1,8.5,10.6,32.1,8.5,10.6,32.1],["2011-09-21T00:00:00Z","2011-09-21T00:00:00Z","2011-09-21T00:00:00Z","2012-09-21T00:00:00Z","2012-09-21T00:00:00Z","2012-09-21T00:00:00Z","2013-09-29T00:00:00Z","2013-09-29T00:00:00Z","2013-09-29T00:00:00Z","2014-08-26T00:00:00Z","2014-08-26T00:00:00Z","2014-08-26T00:00:00Z","2015-09-20T00:00:00Z","2015-09-20T00:00:00Z","2015-09-20T00:00:00Z"],[2011,2011,2011,2012,2012,2012,2013,2013,2013,2014,2014,2014,2015,2015,2015],[1,2,3,1,2,3,1,2,3,1,2,3,1,2,3],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],["CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP","CStwP"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>land_unit_id<\/th>\n      <th>practice_name<\/th>\n      <th>applied_amount<\/th>\n      <th>applied_date<\/th>\n      <th>applied_year<\/th>\n      <th>duplicates_id_yr_code<\/th>\n      <th>duplicates_id_yr_code_amt<\/th>\n      <th>program<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[3,5,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"land_unit_id","targets":1},{"name":"practice_name","targets":2},{"name":"applied_amount","targets":3},{"name":"applied_date","targets":4},{"name":"applied_year","targets":5},{"name":"duplicates_id_yr_code","targets":6},{"name":"duplicates_id_yr_code_amt","targets":7},{"name":"program","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level4">
+<h4 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
+</h4>
+<p>Keep 77 and 102.7 ?</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable</a></span><span class="op">(</span><span class="va">duplicated_listings</span><span class="op">[[</span><span class="st">"{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-36aa3d2a04d42bbc2145" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7"],["{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}","{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}","{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}","{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}","{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}","{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}","{FD9D5AB7-7A8E-4020-9FAA-81B392DC7EB4}"],["Access Control","Conservation Cover","Conservation Cover","Conservation Cover","Access Control","Tree/Shrub Site Preparation","Tree/Shrub Establishment"],[102.7,77,77,102.7,77,77,77],["2013-10-30T00:00:00Z","2017-01-24T00:00:00Z","2016-10-30T00:00:00Z","2017-01-24T00:00:00Z","2016-10-30T00:00:00Z","2017-01-24T00:00:00Z","2017-01-24T00:00:00Z"],[2014,2017,2017,2017,2017,2017,2017],[1,1,2,3,1,1,1],[1,1,2,1,1,1,1],["CRP","CRP","CRP","CRP","CRP","CRP","CRP"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>land_unit_id<\/th>\n      <th>practice_name<\/th>\n      <th>applied_amount<\/th>\n      <th>applied_date<\/th>\n      <th>applied_year<\/th>\n      <th>duplicates_id_yr_code<\/th>\n      <th>duplicates_id_yr_code_amt<\/th>\n      <th>program<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[3,5,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"land_unit_id","targets":1},{"name":"practice_name","targets":2},{"name":"applied_amount","targets":3},{"name":"applied_date","targets":4},{"name":"applied_year","targets":5},{"name":"duplicates_id_yr_code","targets":6},{"name":"duplicates_id_yr_code_amt","targets":7},{"name":"program","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level4">
+<h4 id="example-4">Example 4<a class="anchor" aria-label="anchor" href="#example-4"></a>
+</h4>
+<p>Look at Upland Wildlife Habitat Management in 2010. Not considering
+applied amount would probably remove the record where applied amount is
+1</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable</a></span><span class="op">(</span><span class="va">duplicated_listings</span><span class="op">[[</span><span class="st">"{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-febe03efa1a2d8d52a86" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-febe03efa1a2d8d52a86">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27"],["{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}","{DAA01A27-1A9C-4CD0-8D21-64C427176BF1}"],["Conservation Cover","Access Control","Upland Wildlife Habitat Management","Upland Wildlife Habitat Management","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Conservation Cover","Access Control","Access Control","Access Control","Access Control","Access Control","Access Control","Access Control","Access Control","Access Control","Access Control"],[19.2,19.2,1,18.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2,19.2],["2009-10-30T00:00:00Z","2009-10-30T00:00:00Z","2009-10-30T00:00:00Z","2009-10-30T00:00:00Z","2014-10-30T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z","2020-09-28T00:00:00Z"],[2010,2010,2010,2010,2015,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020],[1,1,1,2,1,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10],[1,1,1,1,1,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10],["CRP","CRP","CRP","CRP","CRP","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL","CTA-GENRL"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>land_unit_id<\/th>\n      <th>practice_name<\/th>\n      <th>applied_amount<\/th>\n      <th>applied_date<\/th>\n      <th>applied_year<\/th>\n      <th>duplicates_id_yr_code<\/th>\n      <th>duplicates_id_yr_code_amt<\/th>\n      <th>program<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[3,5,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"land_unit_id","targets":1},{"name":"practice_name","targets":2},{"name":"applied_amount","targets":3},{"name":"applied_date","targets":4},{"name":"applied_year","targets":5},{"name":"duplicates_id_yr_code","targets":6},{"name":"duplicates_id_yr_code_amt","targets":7},{"name":"program","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level4">
+<h4 id="example-5">Example 5<a class="anchor" aria-label="anchor" href="#example-5"></a>
+</h4>
+<p>Look at Forest Stand Improvement in 2023. Removing duplicates of
+either 1.1 or 2.9 is probably incorrect. Forest Stand Improvement 2023
+sum = 4 Forest Stand Improvement 2022 sum = 4</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable</a></span><span class="op">(</span><span class="va">duplicated_listings</span><span class="op">[[</span><span class="st">"{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-1fb4450895fe099f74a1" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1fb4450895fe099f74a1">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9"],["{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}","{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}","{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}","{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}","{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}","{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}","{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}","{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}","{AE32D5A2-6BA9-4DD2-AB35-F30F548BE118}"],["Woody Residue Treatment","Upland Wildlife Habitat Management","Tree-Shrub Pruning","Forest Stand Improvement","Upland Wildlife Habitat Management","Tree-Shrub Pruning","Tree-Shrub Pruning","Forest Stand Improvement","Forest Stand Improvement"],[4,209,4,4,209,1,2,1.1,2.9],["2022-01-14T00:00:00Z","2022-09-26T00:00:00Z","2022-01-14T00:00:00Z","2022-01-14T00:00:00Z","2023-09-28T00:00:00Z","2022-12-27T00:00:00Z","2022-12-27T00:00:00Z","2022-12-27T00:00:00Z","2022-12-27T00:00:00Z"],[2022,2022,2022,2022,2023,2023,2023,2023,2023],[1,1,1,1,1,1,2,1,2],[1,1,1,1,1,1,1,1,1],["EQIP","CTA-GENRL","EQIP","EQIP","CTA-GENRL","EQIP","EQIP","EQIP","EQIP"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>land_unit_id<\/th>\n      <th>practice_name<\/th>\n      <th>applied_amount<\/th>\n      <th>applied_date<\/th>\n      <th>applied_year<\/th>\n      <th>duplicates_id_yr_code<\/th>\n      <th>duplicates_id_yr_code_amt<\/th>\n      <th>program<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[3,5,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"land_unit_id","targets":1},{"name":"practice_name","targets":2},{"name":"applied_amount","targets":3},{"name":"applied_date","targets":4},{"name":"applied_year","targets":5},{"name":"duplicates_id_yr_code","targets":6},{"name":"duplicates_id_yr_code_amt","targets":7},{"name":"program","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><p>Top 20 examples of most practice code duplicates</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrcs_columbia</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">land_unit_id</span>,<span class="va">applied_year</span>,n_distinct_vars <span class="op">=</span> <span class="va">practice_code</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_practice_code</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 5</span></span></span>
+<span><span class="co">#&gt;    land_unit_id                  applied_year n_practice_code     n n_cumulative</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>010               9     9         <span style="text-decoration: underline;">1</span>613</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>011               9     9         <span style="text-decoration: underline;">1</span>622</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>012               9     9         <span style="text-decoration: underline;">1</span>631</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>013               9     9         <span style="text-decoration: underline;">1</span>640</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> {1FCE00C8-38CF-44D1-B5CA-034…         <span style="text-decoration: underline;">2</span>014               9     9         <span style="text-decoration: underline;">1</span>649</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>010               9     9        <span style="text-decoration: underline;">10</span>183</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>011               9     9        <span style="text-decoration: underline;">10</span>192</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>012               9     9        <span style="text-decoration: underline;">10</span>201</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>013               9     9        <span style="text-decoration: underline;">10</span>210</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> {C7AA77F0-F338-46C9-80AE-DF0…         <span style="text-decoration: underline;">2</span>014               9     9        <span style="text-decoration: underline;">10</span>219</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> {E9FF2BE2-08D0-4025-A79C-174…         <span style="text-decoration: underline;">2</span>016               8     8        <span style="text-decoration: underline;">12</span>396</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> {2F6D84DC-A1F0-4D37-8558-B6E…         <span style="text-decoration: underline;">2</span>022               7    10         <span style="text-decoration: underline;">2</span>522</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> {469DB704-8FA6-4439-8213-963…         <span style="text-decoration: underline;">2</span>013               7    18         <span style="text-decoration: underline;">3</span>623</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> {857A3952-0641-41CA-8EA0-16E…         <span style="text-decoration: underline;">2</span>013               7    15         <span style="text-decoration: underline;">6</span>808</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> {03F66BFF-3263-43BC-BA99-D7D…         <span style="text-decoration: underline;">2</span>006               6     6          203</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> {0B238478-C34F-4EAC-A0CC-BDB…         <span style="text-decoration: underline;">2</span>007               6     6          561</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> {0CD4A764-0227-4E80-AD4C-927…         <span style="text-decoration: underline;">2</span>007               6     6          653</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> {131BAF71-F051-4D0D-B4FD-039…         <span style="text-decoration: underline;">2</span>006               6     6          903</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> {16AC9FB6-D71D-441D-A187-D99…         <span style="text-decoration: underline;">2</span>006               6     6         <span style="text-decoration: underline;">1</span>112</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> {1A7EBCBC-7A6B-48FF-9348-9CF…         <span style="text-decoration: underline;">2</span>021               6     6         <span style="text-decoration: underline;">1</span>287</span></span></code></pre></div>
+</div>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
@@ -76,7 +313,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
