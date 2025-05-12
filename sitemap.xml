@@ -7,9 +7,11 @@
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/reference/clean_nrcs_data.html</loc></url>
+<url><loc>/reference/clip_raster_to_county.html</loc></url>
 <url><loc>/reference/convert_esri_dates.html</loc></url>
 <url><loc>/reference/get_gis_from_url.html</loc></url>
 <url><loc>/reference/get_swifd_by_county.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/reclassify_raster.html</loc></url>
 </urlset>
 
