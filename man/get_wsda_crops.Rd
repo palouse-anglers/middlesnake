@@ -15,3 +15,55 @@ An sf object with crop sections intersecting the county
 \description{
 Query WSDA Crop Landcover for a Specific Washington County
 }
+\examples{
+\dontrun{
+
+crops <- get_wsda_crops("Columbia)
+
+crop_colors <- c(
+  "Berry" = "#E600AC",
+  "Cereal Grain" = "#FFEABF",
+  "Commercial Tree" = "#D6D69F",
+  "Developed" = "#D3D3D3",
+  "Flower Bulb" = "#FFFF75",
+  "Green Manure" = "#FFBFE9",
+  "Hay/Silage" = "#4D7300",
+  "Herb" = "#005CE6",
+  "Melon" = "#FF8080",
+  "Nursery" = "#CC6666",
+  "Oilseed" = "#E6E600",
+  "Orchard" = "#FF0000",
+  "Other" = "#CCA866",
+  "Pasture" = "#90EE90",
+  "Seed" = "#44876E",
+  "Shellfish" = "#BFE9FF",
+  "Turfgrass" = "#AACCAA",
+  "Vegetable" = "#A52A2A",
+  "Vineyard" = "#8B008B"
+)
+
+pal <- leaflet::colorFactor(
+  palette = crop_colors,
+  domain = names(crop_colors),
+  na.color = "#999999"
+)
+
+leaflet(crops) \%>\%
+  addTiles() \%>\%
+  addPolygons(
+    fillColor = ~pal(CropGroup),
+    fillOpacity = 0.7,
+    color = "#333333",
+    weight = 0.3,
+    label = ~CropGroup
+  ) \%>\%
+  addLegend(
+    position = "bottomright",
+    pal = pal,
+    values = crops$CropGroup,
+    title = "Crop Group",
+    opacity = 1
+  )
+}
+
+}
