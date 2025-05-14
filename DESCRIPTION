@@ -12,10 +12,12 @@ Imports:
     cli,
     dplyr,
     geojsonsf,
+    glue,
     httr,
     janitor,
     readxl,
     sf,
+    terra,
     tigris,
     tools,
     utils
