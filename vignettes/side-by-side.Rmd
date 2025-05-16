@@ -1,0 +1,73 @@
+---
+title: "side by side 2024 to 2011"
+author: "Steve Hummel"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Publishing USDA Cropland Rasters with GeoServer}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+library(leaflet)
+library(leaflet.extras2)
+```
+
+
+```{r}
+
+leaflet()  %>%
+  # Define left and right map panes
+  addMapPane("right", zIndex = 410) %>%
+  addMapPane("left",  zIndex = 420) %>%
+
+  # Add basemaps to left and right for swipe alignment
+  addTiles(group = "base", layerId = "baseid1", options = pathOptions(pane = "right")) %>%
+  addTiles(group = "base", layerId = "baseid2", options = pathOptions(pane = "left")) %>%
+
+  # Add WMS layer for USDA 2024 to RIGHT pane
+  addWMSTiles(
+    baseUrl = "http://142.93.92.104:8080/geoserver/Columbia/wms",
+    layers = "Columbia:usda_2024_cropland",
+    options = WMSTileOptions(
+      format = "image/png",
+      transparent = TRUE,
+      version = "1.1.0",
+      pane = "right"
+    ),
+    layerId = "wms_2024"
+  ) %>%
+
+  # Add WMS layer for USDA 2011 to LEFT pane
+  addWMSTiles(
+    baseUrl = "http://142.93.92.104:8080/geoserver/Columbia/wms",
+    layers = "Columbia:usda_2011_cropland",
+    options = WMSTileOptions(
+      format = "image/png",
+      transparent = TRUE,
+      version = "1.1.0",
+      pane = "left"
+    ),
+    layerId = "wms_2011"
+  ) %>%
+
+  # Zoom to Columbia County
+  fitBounds(
+    lng1 = -118.400, lat1 = 46.126,
+    lng2 = -117.750, lat2 = 46.475
+  )  %>%
+
+  # Add side-by-side swipe control
+  addSidebyside(
+    leftId = "wms_2011",
+    rightId = "wms_2024",
+    layerId = "swipe_control"
+  )
+
+
+```
+
