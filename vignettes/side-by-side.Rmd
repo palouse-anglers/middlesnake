@@ -2,6 +2,7 @@
 title: "side by side 2024 to 2011"
 author: "Steve Hummel"
 date: "`r Sys.Date()`"
+knit: false
 output:
   rmarkdown::html_vignette:
     toc: true

@@ -2,4 +2,11 @@ url: ~
 template:
   bootstrap: 5
   logo: man/figures/logo.png
+articles:
+  - title: "NRCS Practices"
+    contents:
+      - nrcs-practices        # This is from vignettes/nrcs-practices.Rmd
 
+  - title: "USDA Crop Layer Compare"
+    contents:
+      - side-by-side
