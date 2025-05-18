@@ -1,0 +1,60 @@
+---
+title: "nrcs-practices"
+date: '`r format(Sys.Date(), "%B %d %Y")`'
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+    vignette: >
+      %\VignetteIndexEntry{nrcs-practices}
+      %\VignetteEngine{knitr::rmarkdown}
+      %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = "center"
+)
+```
+
+
+```{r}
+library(sf)
+library(leaflet)
+
+```
+
+# Load HUC 12 layer
+```{r}
+
+wfs_url <- paste0(
+  "http://142.93.92.104:8080/geoserver/Columbia/ows?",
+  "service=WFS&version=1.1.0&request=GetFeature",
+  "&typeName=Columbia:all_columbia_huc_12s",
+  "&outputFormat=application/json"
+)
+
+
+huc_12_sf <- st_read(wfs_url)
+
+```
+
+
+# Load geologic hazards
+```{r}
+
+geohazard_url <- paste0(
+  "http://142.93.92.104:8080/geoserver/Columbia/ows?",
+  "service=WFS&version=1.1.0&request=GetFeature",
+  "&typeName=Columbia:columbia-geologic-hazard",
+  "&outputFormat=application/json"
+)
+
+
+geo_hazards_sf <- st_read(geohazard_url)
+
+```
+
+
