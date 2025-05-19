@@ -1,12 +1,12 @@
 ---
-title: "nrcs-practices"
+title: "Intro to Geoserver"
 date: '`r format(Sys.Date(), "%B %d %Y")`'
 output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 2
     vignette: >
-      %\VignetteIndexEntry{nrcs-practices}
+      %\VignetteIndexEntry{use-geoserver}
       %\VignetteEngine{knitr::rmarkdown}
       %\VignetteEncoding{UTF-8}
 ---
@@ -23,27 +23,22 @@ knitr::opts_chunk$set(
 ```{r}
 library(sf)
 library(leaflet)
+library(middlesnake)
 
 ```
 
-# Load HUC 12 layer
-```{r}
+# Show layers
 
-wfs_url <- paste0(
-  "http://142.93.92.104:8080/geoserver/Columbia/ows?",
-  "service=WFS&version=1.1.0&request=GetFeature",
-  "&typeName=Columbia:all_columbia_huc_12s",
-  "&outputFormat=application/json"
-)
+```{r, eval=FALSE}
 
-
-huc_12_sf <- st_read(wfs_url)
+show_geoserver_layers()
 
 ```
 
 
 # Load geologic hazards
-```{r}
+### the long way
+```{r,eval=FALSE}
 
 geohazard_url <- paste0(
   "http://142.93.92.104:8080/geoserver/Columbia/ows?",
@@ -54,6 +49,14 @@ geohazard_url <- paste0(
 
 
 geo_hazards_sf <- st_read(geohazard_url)
+
+```
+
+### the easy way
+Load it into your environment or save it.
+```{r,eval=FALSE}
+
+get_geoserver_layer("columbia-geologic-hazard")
 
 ```
 

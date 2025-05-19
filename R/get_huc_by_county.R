@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @examples
-#'  \dontrun{
+#'\dontrun{
 #'
 #'  asotin_huc12s <- get_huc_by_county("Asotin",
 #'  huc_level = "huc12")
@@ -26,9 +26,10 @@
 #'  get_huc_by_county("Asotin",
 #'  huc_level = "huc12",
 #'  save_shp = TRUE,
-#'  shp_path = "../../../Documents/asotin_huc12_clipped
+#'  shp_path = "../../../Documents/asotin_huc12_clipped")
 #'
-#'}
+#' }
+#'
 get_huc_by_county <- function(county_name,
                               huc_level = "huc12",
                               save_shp = FALSE,

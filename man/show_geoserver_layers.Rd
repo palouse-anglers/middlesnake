@@ -23,7 +23,7 @@ By default, it points to the Columbia County WA workspace.
 }
 \examples{
 \dontrun{
-get_wms_layers()
-get_wms_layers("http://your-custom-server/geoserver/your-workspace/wms?...")
+
+show_geoserver_layers()
 }
 }

@@ -11,18 +11,19 @@
 #'
 #' @examples
 #' \dontrun{
-#' get_wms_layers()
-#' get_wms_layers("http://your-custom-server/geoserver/your-workspace/wms?...")
+#'
+#' show_geoserver_layers()
 #' }
+#'
 #' @export
 show_geoserver_layers <- function(
     geoserver_url = "http://142.93.92.104:8080/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"
 ) {
   cli::cli_inform("Querying GeoServer WMS capabilities...")
-  response <- httr::GET(capabilities_url)
+  response <- httr::GET(geoserver_url)
 
   if (httr::http_error(response)) {
-    cli::cli_abort("Failed to fetch capabilities from GeoServer.")
+    cli::cli_abort("Failed to fetch url from GeoServer.")
   }
 
   xml <- xml2::read_xml(response)

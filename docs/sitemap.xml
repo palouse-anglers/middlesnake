@@ -3,6 +3,7 @@
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/articles/nrcs-practices.html</loc></url>
 <url><loc>/articles/side-by-side.html</loc></url>
+<url><loc>/articles/use-geoserver.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/LICENSE-text.html</loc></url>
@@ -11,10 +12,14 @@
 <url><loc>/reference/clip_raster_to_county.html</loc></url>
 <url><loc>/reference/convert_esri_dates.html</loc></url>
 <url><loc>/reference/get_county_polygon.html</loc></url>
+<url><loc>/reference/get_geoserver_layer.html</loc></url>
 <url><loc>/reference/get_gis_from_url.html</loc></url>
+<url><loc>/reference/get_huc_by_county.html</loc></url>
 <url><loc>/reference/get_swifd_by_county.html</loc></url>
 <url><loc>/reference/get_wsda_crops.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/reclassify_raster.html</loc></url>
+<url><loc>/reference/show_geoserver_layers.html</loc></url>
+<url><loc>/reference/summarize_acres_by_huc12.html</loc></url>
 </urlset>
 

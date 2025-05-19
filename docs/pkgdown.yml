@@ -4,4 +4,5 @@ pkgdown_sha: ~
 articles:
   nrcs-practices: nrcs-practices.html
   side-by-side: side-by-side.html
-last_built: 2025-05-17T01:56Z
+  use-geoserver: use-geoserver.html
+last_built: 2025-05-19T05:23Z

@@ -10,3 +10,6 @@ articles:
   - title: "USDA Crop Layer Compare"
     contents:
       - side-by-side
+  - title: "Intro to Geoserver"
+    contents:
+      - use-geoserver

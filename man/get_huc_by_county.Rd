@@ -30,16 +30,20 @@ provided. Optionally saves the results as a shapefile. Clipped acres of
 each watershed are automatically recalculated and added as \code{Acres_in_huc} variable
 }
 \examples{
- \dontrun{
+\dontrun{
 
- asotin_huc12s <- get_huc_by_county("Columbia",
- huc_level = "huc12",
- save_shp = TRUE,
- shp_path = "columbia_huc12")
+ asotin_huc12s <- get_huc_by_county("Asotin",
+ huc_level = "huc12")
 
   leaflet() \%>\%
   addTiles() \%>\%
   addPolygons(data=asotin_huc12s,label=~name)
 
+ get_huc_by_county("Asotin",
+ huc_level = "huc12",
+ save_shp = TRUE,
+ shp_path = "../../../Documents/asotin_huc12_clipped")
+
 }
+
 }
