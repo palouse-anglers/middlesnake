@@ -2,20 +2,39 @@
 % Please edit documentation in R/summarize_acres_by_huc12.R
 \name{summarize_acres_by_huc12}
 \alias{summarize_acres_by_huc12}
-\title{Compute acres of overlay polygons within each HUC12 watershed}
+\title{Summarize Acres of Overlay Features within HUC12 Watersheds}
 \usage{
-summarize_acres_by_huc12(huc12, overlay, huc_id_col = "huc12")
+summarize_acres_by_huc12(
+  huc12,
+  overlay,
+  huc_id_col = "huc12",
+  group_vars = NULL
+)
 }
 \arguments{
-\item{huc12}{An \code{sf} object of watershed boundaries (reprojected to 5070)}
+\item{huc12}{An sf object representing HUC12 watersheds}
 
-\item{overlay}{An \code{sf} object of polygonal features (also in 5070)}
+\item{overlay}{An sf object representing layers to be summarized (e.g., wetlands)}
 
-\item{huc_id_col}{Name of the HUC identifier column (default = "huc12")}
+\item{huc_id_col}{The name of the column identifying each HUC12 unit (default: "huc12")}
+
+\item{group_vars}{Optional character vector of additional grouping columns from the overlay layer (e.g., c("wetland_type"))}
 }
 \value{
-A tibble summarizing acres of overlay per HUC12 unit
+A data frame summarizing acres by HUC12 and optional groupings
 }
 \description{
-Compute acres of overlay polygons within each HUC12 watershed
+Summarize Acres of Overlay Features within HUC12 Watersheds
+}
+\examples{
+\dontrun{
+
+huc12 <- get_geoserver_layer("all_columbia_huc_12s")
+geohazards <- get_geoserver_layer("columbia-geologic-hazard")
+
+geohaz_acres <- summarize_acres_by_huc12(huc12 = huc12,
+overlay = geohazards, group_vars = "forpehrtdc")
+}
+
+
 }

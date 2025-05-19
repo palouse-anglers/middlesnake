@@ -6,14 +6,15 @@
 #' @param group_vars Optional character vector of additional grouping columns from the overlay layer (e.g., c("wetland_type"))
 #'
 #' @return A data frame summarizing acres by HUC12 and optional groupings
-#' @example
+#' @examples
+#' \dontrun{
 #'
 #' huc12 <- get_geoserver_layer("all_columbia_huc_12s")
 #' geohazards <- get_geoserver_layer("columbia-geologic-hazard")
 #'
 #' geohaz_acres <- summarize_acres_by_huc12(huc12 = huc12,
 #' overlay = geohazards, group_vars = "forpehrtdc")
-#'
+#' }
 #'
 #'
 #' @export
