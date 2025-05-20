@@ -9,13 +9,14 @@
 get_county_polygon <- function(county_name, crs = 4326) {
 
   # Get all counties for Washington
-  wa_counties <- tigris::counties(state = "WA", year = 2023, class = "sf")
+  #wa_counties <- tigris::counties(state = "WA", year = 2023, class = "sf")
+  data("wa_counties", package = "middlesnake", envir = environment())
 
   # Filter for the specified county
   county <- dplyr::filter(wa_counties, NAME %in% county_name)
 
   if (nrow(county) == 0) {
-    stop(paste0("County '", county_name, "' not found in Washington State."))
+    cli::cli_abort("County '{county_name}' not found in Washington State.")
   }
 
   # Transform to requested CRS
