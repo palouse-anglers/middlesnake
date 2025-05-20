@@ -25,7 +25,7 @@ get_cd_polygon <- function(district_name, crs = 4326) {
     dplyr::filter(swcd_name %in% district_name)
 
   if (nrow(swcd) == 0) {
-    stop(paste0("CD '", district_name, "' not found in Washington State."))
+    cli::cli_abort("CD '{district_name}' not found in Washington State.")
   }
 
   # Transform to requested CRS
