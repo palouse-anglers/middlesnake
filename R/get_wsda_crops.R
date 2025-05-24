@@ -54,18 +54,22 @@
 #' }
 #'
 #' @export
-get_wsda_crops <- function(county_name) {
+get_wsda_crops <- function(district_name) {
 
-     # Step 1: Get the county boundary in WGS84
-  wa_counties <- tigris::counties(state = "WA", year = 2023, class = "sf")
+  data("swcd_boundaries", package = "middlesnake", envir = environment())
 
-  poly <- wa_counties %>%
-    filter(NAME  %in% county_name) %>%
-    st_transform(4326)
+  # Filter for the specified county
+  swcd <- swcd_bcoundaries %>%
+    dplyr::mutate(swcd_name = sub(" CD$", "", CNSVDST)) %>%
+    dplyr::mutate(swcd_name = sub(" County$", "", swcd_name)) %>%
+    dplyr::filter(swcd_name %in% district_name)
 
-  if (nrow(poly) == 0) {
-    stop(paste0("County '", county_name, "' not found."))
+
+  if (nrow(swcd) == 0) {
+    cli::cli_abort("CD '{district_name}' not found in Washington State.")
   }
+
+  poly <- swcd
 
   # Step 2: Convert to Esri JSON geometry
   coords <- st_coordinates(poly)[, 1:2]
@@ -77,7 +81,7 @@ get_wsda_crops <- function(county_name) {
 
   # Step 3: Construct body for POST request
   post_body <- list(
-    geometry = toJSON(esri_geom, auto_unbox = TRUE),
+    geometry = jsonlite::toJSON(esri_geom, auto_unbox = TRUE),
     geometryType = "esriGeometryPolygon",
     spatialRel = "esriSpatialRelIntersects",
     outFields = "*",
@@ -86,7 +90,7 @@ get_wsda_crops <- function(county_name) {
   )
 
   # Step 4: Send POST request
-  query_url <- "https://fortress.wa.gov/agr/gis/wsdagis/rest/services/NRAS/SectionsWithCrops2023/MapServer/0/query"
+  query_url <- "https://fortress.wa.gov/agr/gis/wsdagis/rest/services/NRAS/WSDACrop_2023/MapServer/0/query"
   response <- httr::POST(query_url, body = post_body, encode = "form")
 
   # Step 5: Read GeoJSON response into sf
