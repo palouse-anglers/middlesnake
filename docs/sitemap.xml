@@ -11,6 +11,7 @@
 <url><loc>/reference/clean_nrcs_data.html</loc></url>
 <url><loc>/reference/clip_raster_to_county.html</loc></url>
 <url><loc>/reference/convert_esri_dates.html</loc></url>
+<url><loc>/reference/get_cd_polygon.html</loc></url>
 <url><loc>/reference/get_county_polygon.html</loc></url>
 <url><loc>/reference/get_geoserver_layer.html</loc></url>
 <url><loc>/reference/get_gis_from_url.html</loc></url>

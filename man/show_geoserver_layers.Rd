@@ -6,7 +6,7 @@
 \usage{
 show_geoserver_layers(
   geoserver_url =
-    "http://142.93.92.104:8080/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"
+    "http://geoserver.megaloptera-data.com/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"
 )
 }
 \arguments{
@@ -26,4 +26,5 @@ By default, it points to the Columbia County WA workspace.
 
 show_geoserver_layers()
 }
+
 }

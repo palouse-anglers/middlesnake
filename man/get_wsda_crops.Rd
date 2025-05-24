@@ -4,7 +4,7 @@
 \alias{get_wsda_crops}
 \title{Query WSDA Crop Landcover for a Specific Washington County}
 \usage{
-get_wsda_crops(county_name)
+get_wsda_crops(district_name)
 }
 \arguments{
 \item{county_name}{Name of the Washington State county (e.g., "Columbia")}

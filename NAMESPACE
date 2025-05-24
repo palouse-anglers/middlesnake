@@ -3,6 +3,7 @@
 export(clean_nrcs_data)
 export(clip_raster_to_county)
 export(convert_esri_dates)
+export(get_cd_polygon)
 export(get_county_polygon)
 export(get_geoserver_layer)
 export(get_gis_from_url)

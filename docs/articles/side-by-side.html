@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Steve
 Hummel</h4>
             
-            <h4 data-toc-skip class="date">2025-05-19</h4>
+            <h4 data-toc-skip class="date">2025-05-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/palouse-anglers/middlesnake/blob/HEAD/vignettes/side-by-side.Rmd" class="external-link"><code>vignettes/side-by-side.Rmd</code></a></small>
       <div class="d-none name"><code>side-by-side.Rmd</code></div>
@@ -86,7 +86,7 @@ Hummel</h4>
 <span></span>
 <span>  <span class="co"># Add WMS layer for USDA 2024 to RIGHT pane</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/map-layers.html" class="external-link">addWMSTiles</a></span><span class="op">(</span></span>
-<span>    baseUrl <span class="op">=</span> <span class="st">"http://142.93.92.104:8080/geoserver/Columbia/wms"</span>,</span>
+<span>    baseUrl <span class="op">=</span> <span class="st">"http://geoserver.megaloptera-data.com/geoserver/Columbia/wms"</span>,</span>
 <span>    layers <span class="op">=</span> <span class="st">"Columbia:usda_2024_cropland"</span>,</span>
 <span>    options <span class="op">=</span> <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/map-options.html" class="external-link">WMSTileOptions</a></span><span class="op">(</span></span>
 <span>      format <span class="op">=</span> <span class="st">"image/png"</span>,</span>
@@ -99,7 +99,7 @@ Hummel</h4>
 <span></span>
 <span>  <span class="co"># Add WMS layer for USDA 2011 to LEFT pane</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/map-layers.html" class="external-link">addWMSTiles</a></span><span class="op">(</span></span>
-<span>    baseUrl <span class="op">=</span> <span class="st">"http://142.93.92.104:8080/geoserver/Columbia/wms"</span>,</span>
+<span>    baseUrl <span class="op">=</span> <span class="st">"geoserver.megaloptera-data.com/geoserver/Columbia/wms"</span>,</span>
 <span>    layers <span class="op">=</span> <span class="st">"Columbia:usda_2011_cropland"</span>,</span>
 <span>    options <span class="op">=</span> <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/map-options.html" class="external-link">WMSTileOptions</a></span><span class="op">(</span></span>
 <span>      format <span class="op">=</span> <span class="st">"image/png"</span>,</span>
@@ -123,7 +123,7 @@ Hummel</h4>
 <span>    layerId <span class="op">=</span> <span class="st">"swipe_control"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="leaflet html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["right",410]},{"method":"createMapPane","args":["left",420]},{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png","baseid1","base",{"interactive":true,"className":"","pane":"right","attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png","baseid2","base",{"interactive":true,"className":"","pane":"left","attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addWMSTiles","args":["http://142.93.92.104:8080/geoserver/Columbia/wms","wms_2024",null,{"styles":"","format":"image/png","transparent":true,"version":"1.1.0","pane":"right","layers":"Columbia:usda_2024_cropland"}]},{"method":"addWMSTiles","args":["http://142.93.92.104:8080/geoserver/Columbia/wms","wms_2011",null,{"styles":"","format":"image/png","transparent":true,"version":"1.1.0","pane":"left","layers":"Columbia:usda_2011_cropland"}]},{"method":"addSidebyside","args":["swipe_control","wms_2011","wms_2024",{"thumbSize":42,"padding":0}]}],"fitBounds":[46.126,-118.4,46.475,-117.75,[]]},"evals":[],"jsHooks":[]}</script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["right",410]},{"method":"createMapPane","args":["left",420]},{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png","baseid1","base",{"interactive":true,"className":"","pane":"right","attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png","baseid2","base",{"interactive":true,"className":"","pane":"left","attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addWMSTiles","args":["http://geoserver.megaloptera-data.com/geoserver/Columbia/wms","wms_2024",null,{"styles":"","format":"image/png","transparent":true,"version":"1.1.0","pane":"right","layers":"Columbia:usda_2024_cropland"}]},{"method":"addWMSTiles","args":["geoserver.megaloptera-data.com/geoserver/Columbia/wms","wms_2011",null,{"styles":"","format":"image/png","transparent":true,"version":"1.1.0","pane":"left","layers":"Columbia:usda_2011_cropland"}]},{"method":"addSidebyside","args":["swipe_control","wms_2011","wms_2024",{"thumbSize":42,"padding":0}]}],"fitBounds":[46.126,-118.4,46.475,-117.75,[]]},"evals":[],"jsHooks":[]}</script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
