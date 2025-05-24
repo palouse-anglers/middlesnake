@@ -41,7 +41,7 @@ show_geoserver_layers()
 ```{r,eval=FALSE}
 
 geohazard_url <- paste0(
-  "http://142.93.92.104:8080/geoserver/Columbia/ows?",
+  "http://geoserver.megaloptera-data.com/geoserver/Columbia/ows?",
   "service=WFS&version=1.1.0&request=GetFeature",
   "&typeName=Columbia:columbia-geologic-hazard",
   "&outputFormat=application/json"
