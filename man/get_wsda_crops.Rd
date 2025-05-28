@@ -7,13 +7,14 @@
 get_wsda_crops(district_name)
 }
 \arguments{
-\item{county_name}{Name of the Washington State county (e.g., "Columbia")}
+\item{district_name}{Name of the Washington State Conservation District (e.g., "Columbia")}
 }
 \value{
-An sf object with crop sections intersecting the county
+An sf object with crop sections intersecting the district
 }
 \description{
-Query WSDA Crop Landcover for a Specific Washington County
+See below for source data
+\link{https://agr.wa.gov/departments/land-and-water/natural-resources/agricultural-land-use}
 }
 \examples{
 \dontrun{

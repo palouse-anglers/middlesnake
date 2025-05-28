@@ -1,7 +1,10 @@
 #' Query WSDA Crop Landcover for a Specific Washington County
 #'
-#' @param county_name Name of the Washington State county (e.g., "Columbia")
-#' @return An sf object with crop sections intersecting the county
+#' @param district_name Name of the Washington State Conservation District (e.g., "Columbia")
+#' @return An sf object with crop sections intersecting the district
+#' @description See below for source data
+#' [https://agr.wa.gov/departments/land-and-water/natural-resources/agricultural-land-use]
+#'
 #'@examples
 #' \dontrun{
 #'
