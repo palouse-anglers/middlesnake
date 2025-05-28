@@ -19,7 +19,7 @@ get_cd_polygon <- function(district_name, crs = 4326) {
   data("swcd_boundaries", package = "middlesnake", envir = environment())
 
   # Filter for the specified county
-  swcd <- swcd_bcoundaries %>%
+  swcd <- swcd_boundaries %>%
     dplyr::mutate(swcd_name = sub(" CD$", "", CNSVDST)) %>%
     dplyr::mutate(swcd_name = sub(" County$", "", swcd_name)) %>%
     dplyr::filter(swcd_name %in% district_name)
