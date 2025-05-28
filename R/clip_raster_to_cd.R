@@ -1,7 +1,7 @@
-#' Clip a raster to a county in Washington State
+#' Clip a raster to a Conservation District in Washington State
 #'
 #' @param path_to_tif File path to a GeoTIFF raster
-#' @param county_name Name of the Washington State county (e.g., "Columbia")
+#' @param district_name Name of the Washington State Conservation District (e.g., "Columbia")
 #' @description
 #' [https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php]
 #'
@@ -10,8 +10,8 @@
 #' \dontrun{
 #'
 #'
-#' r_mask_2024 <- clip_raster_to_county("../../../Downloads/2024_30m_cdls/2024_30m_cdls.tif",
-#' county_name = "Columbia")
+#' r_mask_2024 <- clip_raster_to_cd("../../../Downloads/2024_30m_cdls/2024_30m_cdls.tif",
+#' district_name = "Columbia")
 #'
 #' terra::writeRaster(
 #' r_mask_2024,
@@ -25,14 +25,27 @@
 #'
 #' }
 #' @export
-clip_raster_to_county <- function(path_to_tif, county_name) {
+clip_raster_to_cd <- function(path_to_tif, district_name) {
 
   # Load raster
   r <- terra::rast(path_to_tif)
 
+
+  data("swcd_boundaries", package = "middlesnake", envir = environment())
+
+  # Filter for the specified county
+  swcd <- swcd_bcoundaries %>%
+    dplyr::mutate(swcd_name = sub(" CD$", "", CNSVDST)) %>%
+    dplyr::mutate(swcd_name = sub(" County$", "", swcd_name)) %>%
+    dplyr::filter(swcd_name %in% district_name)
+
+
+  if (nrow(swcd) == 0) {
+    cli::cli_abort("CD '{district_name}' not found in Washington State.")
+  }
+
   # Get county boundary from TIGRIS and transform to raster CRS
-  county <- tigris::counties(state = "WA", cb = TRUE, class = "sf") |>
-    dplyr::filter(NAME == county_name) |>
+  county <- swcd %>%
     sf::st_transform(terra::crs(r))
 
   # Convert to SpatVector
@@ -42,7 +55,7 @@ clip_raster_to_county <- function(path_to_tif, county_name) {
   r_crop <- terra::crop(r, county_vect)
   r_mask <- terra::mask(r_crop, county_vect)
 
-  message(glue::glue("Clipped raster to {county_name} County."))
+  message(glue::glue("Clipped raster to {district_name}"))
 
   return(r_mask)
 }
