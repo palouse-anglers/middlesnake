@@ -6,7 +6,7 @@
 \usage{
 show_geoserver_layers(
   geoserver_url =
-    "http://geoserver.megaloptera-data.com/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"
+    "https://geoserver.megaloptera-data.com/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"
 )
 }
 \arguments{

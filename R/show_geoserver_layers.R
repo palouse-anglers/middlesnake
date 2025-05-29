@@ -17,7 +17,7 @@
 #'
 #' @export
 show_geoserver_layers <- function(
-    geoserver_url = "http://geoserver.megaloptera-data.com/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"
+    geoserver_url = "https://geoserver.megaloptera-data.com/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"
 ) {
   cli::cli_inform("Querying GeoServer WMS capabilities...")
   response <- httr::GET(geoserver_url)

@@ -26,7 +26,7 @@
 #' @export
 get_geoserver_layer <- function(layer_name,
                                 workspace = "Columbia",
-                                base_url = "geoserver.megaloptera-data.com/geoserver",
+                                base_url = "https://geoserver.megaloptera-data.com/geoserver",
                                 raster = FALSE) {
   full_layer <- paste0(workspace, ":", layer_name)
 

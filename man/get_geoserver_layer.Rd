@@ -7,7 +7,7 @@
 get_geoserver_layer(
   layer_name,
   workspace = "Columbia",
-  base_url = "geoserver.megaloptera-data.com/geoserver",
+  base_url = "https://geoserver.megaloptera-data.com/geoserver",
   raster = FALSE
 )
 }
