@@ -9,3 +9,21 @@
 #' @keywords datasets
 #' @export
 "swcd_boundaries"
+
+
+#' USDA Cropland Data Layer Codes
+#'
+#' A lookup table for CDL numeric codes and their corresponding crop names and categories.
+#'
+#' @format A tibble with columns:
+#' \describe{
+#'   \item{crop}{CDL numeric code}
+#'   \item{crop_label}{Descriptive crop name}
+#'   \item{category}{Optional category (e.g., grain, forest, developed)}
+#' }
+#' @details
+#' USDA National Agricultural Statistics Service, 2024 Cropland Data Layer
+# 'STATEWIDE AGRICULTURAL ACCURACY REPORT
+#' @source \url{https://nassgeodata.gmu.edu/CropScape/}
+#' @export
+"crop_codes"

@@ -61,9 +61,9 @@ get_huc_by_cd <- function(district_name,
 
   cli::cli_alert_info("Assigning HUCs to {district_name}...")
   huc_assigned <- sf::st_intersection(huc_data,swcd) %>%
-    mutate(acres_in_huc =as.numeric(units::set_units(st_area(.), "acre")),
-         huc_level=huc_level) %>%
-        dplyr::select(swcd_name,name,huc12,acres_in_huc,huc_level,dplyr::everything()) %>%
+    dplyr::mutate(acres_in_huc =as.numeric(units::set_units(sf::st_area(.), "acre")),
+     huc_level=huc_level) %>%
+    dplyr::select(swcd_name,name,huc12,acres_in_huc,huc_level,dplyr::everything()) %>%
     sf::st_transform(4326)
 
   cli::cli_alert_success("Downloaded and processed {nrow(huc_assigned)} HUC polygons.")
@@ -75,8 +75,8 @@ get_huc_by_cd <- function(district_name,
 
     cli::cli_alert_info("Saving shapefile to {.file {shp_path}}...")
     huc_assigned %>%
-    st_transform(4326) %>%
-    st_write(paste0(shp_path, ".shp"), delete_dsn = TRUE)
+    sf::st_transform(4326) %>%
+    sf::st_write(paste0(shp_path, ".shp"), delete_dsn = TRUE)
     cli::cli_alert_success("Shapefile saved.")
   }
 
