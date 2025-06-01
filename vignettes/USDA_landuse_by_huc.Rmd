@@ -1,0 +1,77 @@
+---
+title: "USDA Landuse By HUC12"
+date: '`r format(Sys.Date(), "%B %d %Y")`'
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+    vignette: >
+      %\VignetteIndexEntry{USDA_landuse_by_huc}
+      %\VignetteEngine{knitr::rmarkdown}
+      %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = "center"
+)
+```
+
+```{r setup, message = FALSE, warning = FALSE}
+library(middlesnake)
+library(dmcognigen)
+library(dplyr)
+library(DT)
+library(leaflet)
+library(sf)
+library(geojsonsf)
+library(DT)
+```
+
+# Grab HUC12 watershed layer
+
+```{r, eval=FALSE}
+
+columbia_huc_12 <- middlesnake::get_huc_by_cd(district_name = "Columbia")
+
+```
+
+# Grab USDA landuse layer
+
+Here the raster has already been downloaded,clipped to Columbia County, and uploaded to Columbia County CD geoserver. 
+
+[USDA Cropland Data Layer](https://www.nass.usda.gov/Research_and_Science/Cropland/Viewer/index.php "Cropland Data Layer")
+
+```{r, eval=FALSE}
+
+crops_24 <- middlesnake::get_geoserver_layer("usda_2024_cropland",raster = TRUE)
+crops_11 <- middlesnake::get_geoserver_layer("usda_2011_cropland",raster = TRUE)
+
+```
+
+# Calculate landuse within each HUC12
+
+# 2024
+```{r, eval=FALSE}
+
+crops_by_watershed_2024 <- summarize_crops_by_huc12(crops_rast = crops_24,huc12 = columbia_huc_12)
+
+```
+
+# 2011
+```{r, eval=FALSE}
+
+crops_by_watershed_2011 <- summarize_crops_by_huc12(crops_rast = crops_11,huc12 = columbia_huc_12)
+
+```
+
+# write output
+```{r}
+#write.csv(crops_by_watershed_2011,file = "../../../Documents/USDA_cdl_huc12_2011.csv")
+
+# write.csv(crops_by_watershed_2024,file = "../../../Documents/USDA_cdl_huc12_2024csv")
+```
+
+
