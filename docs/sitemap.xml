@@ -3,6 +3,8 @@
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/articles/nrcs-practices.html</loc></url>
 <url><loc>/articles/side-by-side.html</loc></url>
+<url><loc>/articles/summarize-layer-by-huc12.html</loc></url>
+<url><loc>/articles/USDA_landuse_by_huc.html</loc></url>
 <url><loc>/articles/use-geoserver.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
@@ -12,6 +14,7 @@
 <url><loc>/reference/clip_raster_to_cd.html</loc></url>
 <url><loc>/reference/clip_raster_to_county.html</loc></url>
 <url><loc>/reference/convert_esri_dates.html</loc></url>
+<url><loc>/reference/crop_codes.html</loc></url>
 <url><loc>/reference/get_cd_polygon.html</loc></url>
 <url><loc>/reference/get_county_polygon.html</loc></url>
 <url><loc>/reference/get_geoserver_layer.html</loc></url>
@@ -24,6 +27,7 @@
 <url><loc>/reference/reclassify_raster.html</loc></url>
 <url><loc>/reference/show_geoserver_layers.html</loc></url>
 <url><loc>/reference/summarize_acres_by_huc12.html</loc></url>
+<url><loc>/reference/summarize_crops_by_huc12.html</loc></url>
 <url><loc>/reference/swcd_boundaries.html</loc></url>
 </urlset>
 

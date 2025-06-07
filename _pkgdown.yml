@@ -2,14 +2,21 @@ url: ~
 template:
   bootstrap: 5
   logo: man/figures/logo.png
+
 articles:
   - title: "NRCS Practices"
     contents:
-      - nrcs-practices        # This is from vignettes/nrcs-practices.Rmd
+      - nrcs-practices  # From vignettes/nrcs-practices.Rmd
 
   - title: "USDA Crop Layer Compare"
     contents:
-      - side-by-side
-  - title: "Intro to Geoserver"
+      - side-by-side    # From vignettes/side-by-side.Rmd
+
+  - title: "Intro to GeoServer"
     contents:
-      - use-geoserver
+      - use-geoserver   # From vignettes/use-geoserver.Rmd
+
+  - title: "Using the Package"
+    contents:
+      - summarize-layer-by-huc12   # From vignettes/summarize-layer-by-huc12.Rmd
+      - USDA_landuse_by_huc        # From vignettes/USDA_landuse_by_huc.Rmd

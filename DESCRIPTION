@@ -27,8 +27,7 @@ Suggests:
     knitr,
     leaflet,
     rmarkdown
-VignetteBuilder: 
-    rmarkdown
+VignetteBuilder: knitr
 Remotes:
     simulations-plus/dmcognigen
 Encoding: UTF-8

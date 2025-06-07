@@ -4,5 +4,7 @@ pkgdown_sha: ~
 articles:
   nrcs-practices: nrcs-practices.html
   side-by-side: side-by-side.html
+  summarize-layer-by-huc12: summarize-layer-by-huc12.html
+  USDA_landuse_by_huc: USDA_landuse_by_huc.html
   use-geoserver: use-geoserver.html
-last_built: 2025-05-28T05:30Z
+last_built: 2025-06-07T05:20Z

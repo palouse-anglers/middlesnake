@@ -23,5 +23,6 @@ A lookup table for CDL numeric codes and their corresponding crop names and cate
 }
 \details{
 USDA National Agricultural Statistics Service, 2024 Cropland Data Layer
+STATEWIDE AGRICULTURAL ACCURACY REPORT
 }
 \keyword{datasets}

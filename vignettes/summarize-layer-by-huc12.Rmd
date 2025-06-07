@@ -1,0 +1,60 @@
+---
+title: "summarize-layer-by-huc12"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{summarize-layer-by-huc12}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEval{FALSE}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(middlesnake)
+library(dplyr)
+library(sf)
+```
+
+# Get watersheds by Conservation District
+automatically clips watersheds to district boundary
+```{r}
+
+columbia_huc12 <- get_huc_by_cd("Columbia")
+
+```
+
+# Get the layer that need summarized 
+
+Here we use frequently flooded areas
+```{r}
+
+flooded <- get_geoserver_layer("columbia-frequently-flooded")
+
+```
+
+# Summarize
+
+How many frequently flooded acres are inside each huc 12 watershed in Columbia County?
+```{r}
+
+columbia_flooded_huc12 <- summarize_acres_by_huc12(huc12 = columbia_huc12,
+                                                   overlay = flooded)
+```
+
+returns `huc12` (numeric code)  and `acres`. 
+If you want the watershed name add it
+```{r}
+columbia_flooded_huc12 %>%
+    dplyr::left_join(columbia_huc12 %>% 
+                       select(name,huc12)
+                     )
+```
+
+
+

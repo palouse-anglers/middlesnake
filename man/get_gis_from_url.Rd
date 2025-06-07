@@ -2,41 +2,22 @@
 % Please edit documentation in R/get_gis_from_url.R
 \name{get_gis_from_url}
 \alias{get_gis_from_url}
-\title{Download and parse GIS features from an ArcGIS REST GeoJSON URL}
+\title{Download and parse GIS features from an ArcGIS REST GeoJSON URL, with optional AOI}
 \usage{
-get_gis_from_url(url, save_as = NULL, where = NULL)
+get_gis_from_url(url, save_as = NULL, where = NULL, aoi = NULL)
 }
 \arguments{
-\item{url}{Character. A full ArcGIS REST API query URL returning GeoJSON (must include \code{f=geojson}).}
+\item{url}{Character. A full ArcGIS REST API query URL returning GeoJSON (must include \code{f=geojson} or \code{f=json}).}
 
-\item{save_as}{Optional character. Base file name (without extension) to save the result as a Shapefile.
-The \code{.shp} extension is added automatically. File is saved to the working directory.}
+\item{save_as}{Optional character. Base file name (without extension) to save the result as a Shapefile.}
 
-\item{where}{Optional character. SQL-like \code{WHERE} clause to filter features on the server
-(e.g., \code{"County = 'Columbia'"}). This will be URL-encoded and appended or replace any existing \verb{where=}.}
+\item{where}{Optional character. SQL-like \code{WHERE} clause to filter features (e.g., \code{"County = 'Columbia'"}).}
+
+\item{aoi}{Optional \code{sf} polygon. If supplied, calculates an envelope for spatial filtering.}
 }
 \value{
 An \code{sf} object with the parsed features.
 }
 \description{
-This function queries an ArcGIS REST FeatureServer or MapServer URL that returns GeoJSON,
-optionally filters it using a \code{where} SQL clause, and loads the result as an \code{sf} object.
-Look at REST API documentation for the url layer to find acceptable variable names to query.
-Optionally, the features can be saved to a Shapefile in the current working directory.
-}
-\examples{
-\dontrun{
-# Download all features and save to shapefile
-get_gis_from_url(
-  url = "https://geodataservices.wdfw.wa.gov/arcgis/rest/services/MapServices/EasternWashingtonPastures/MapServer/1/query?where=1=1&outFields=*&returnGeometry=true&f=geojson",
-  save_as = "pastures_all"
-)
-
-# Filter by attribute and load only
-get_gis_from_url(
-  url = "https://geodataservices.wdfw.wa.gov/arcgis/rest/services/MapServices/EasternWashingtonPastures/MapServer/1/query?outFields=*&returnGeometry=true&f=geojson",
-  where = "County = 'Columbia'"
-)
-}
-
+Download and parse GIS features from an ArcGIS REST GeoJSON URL, with optional AOI
 }

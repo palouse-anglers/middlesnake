@@ -7,7 +7,7 @@
 #' @docType data
 #' @name swcd_boundaries
 #' @keywords datasets
-#' @export
+#' @docType data
 "swcd_boundaries"
 
 
@@ -23,7 +23,8 @@
 #' }
 #' @details
 #' USDA National Agricultural Statistics Service, 2024 Cropland Data Layer
-# 'STATEWIDE AGRICULTURAL ACCURACY REPORT
+#' STATEWIDE AGRICULTURAL ACCURACY REPORT
 #' @source \url{https://nassgeodata.gmu.edu/CropScape/}
-#' @export
+#' @name crop_codes
+#' @docType data
 "crop_codes"
