@@ -2,6 +2,14 @@ url: ~
 template:
   bootstrap: 5
   logo: man/figures/logo.png
+brand:
+  primary: "#006241"          # Main brand color (e.g., a green for conservation)
+  secondary: "#D2B48C"        # Accent color (e.g., tan or earthy)
+  navbar-bg: "#ffffff"        # Navbar background
+  navbar-fg: "#000000"        # Navbar text
+  navbar-hl: "#006241"        # Navbar link hover color
+  link-fg: "#006241"          # Link color
+  link-hover: "#004d2e"       # Link hover color
 
 articles:
   - title: "NRCS Practices"
