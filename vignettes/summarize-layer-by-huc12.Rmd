@@ -21,6 +21,7 @@ library(dplyr)
 library(sf)
 ```
 
+
 # Get watersheds by Conservation District
 automatically clips watersheds to district boundary
 ```{r}
@@ -28,6 +29,15 @@ automatically clips watersheds to district boundary
 columbia_huc12 <- get_huc_by_cd("Columbia")
 
 ```
+
+# Show geoserver layers
+
+```{r}
+
+show_geoserver_layers()
+
+```
+
 
 # Get the layer that need summarized 
 
@@ -56,5 +66,38 @@ columbia_flooded_huc12 %>%
                      )
 ```
 
+# Let's try wetlands
 
+```{r}
+
+wetlands <- get_geoserver_layer("columbia-wetlands")
+
+```
+
+
+# This time we want to stratify by wetland type within each huc 12
+We'll set the `group_vars` argument
+```{r}
+
+columbia_wetlands_huc12 <- summarize_acres_by_huc12(huc12 = columbia_huc12,overlay = wetlands,group_vars = "WETLAND_TY")
+
+columbia_wetlands_huc12
+
+```
+
+# Use a layer not on Geoserver
+
+We already have Columbia watersheds to use as aoi (i.e. Area of Interest)
+to automatically subset the layer we are grabbing. In this example is using WA DNR Priority areas.
+```{r}
+dnr_forest_priority <- get_gis_from_url(url = "https://services.arcgis.com/4x406oNViizbGo13/arcgis/rest/services/Eastern_WA_Forest_Health_Priority_HUC6_Watersheds/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson",aoi = columbia_huc12)
+```
+
+```{r}
+
+
+columbia_forest_priority_huc12 <- summarize_acres_by_huc12(huc12 = columbia_huc12,
+                                                            overlay = dnr_forest_priority,group_vars = "Priority")
+
+```
 

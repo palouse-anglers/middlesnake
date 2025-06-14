@@ -33,7 +33,7 @@ leaflet()  %>%
   # Add WMS layer for USDA 2024 to RIGHT pane
   addWMSTiles(
     baseUrl = "https://geoserver.megaloptera-data.com/geoserver/Columbia/wms",
-    layers = "Columbia:usda_2024_cropland",
+    layers = "Columbia:usda_2024_colored2",
     options = WMSTileOptions(
       format = "image/png",
       transparent = TRUE,
@@ -46,7 +46,7 @@ leaflet()  %>%
   # Add WMS layer for USDA 2011 to LEFT pane
   addWMSTiles(
     baseUrl = "https://geoserver.megaloptera-data.com/geoserver/Columbia/wms",
-    layers = "Columbia:usda_2011_cropland",
+    layers = "Columbia:usda_2011_colored2",
     options = WMSTileOptions(
       format = "image/png",
       transparent = TRUE,
