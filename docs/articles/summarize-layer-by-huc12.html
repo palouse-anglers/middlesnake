@@ -91,10 +91,37 @@
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Downloaded and processed 50 HUC polygons.</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="show-geoserver-layers">Show geoserver layers<a class="anchor" aria-label="anchor" href="#show-geoserver-layers"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="../reference/show_geoserver_layers.html">show_geoserver_layers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Querying GeoServer WMS capabilities...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Retrieved <span style="font-weight: bold;">18</span> WMS layers.</span></span>
+<span><span class="co">#&gt;  [1] "all_columbia_huc_12s"                </span></span>
+<span><span class="co">#&gt;  [2] "columbia-critical-aquifer"           </span></span>
+<span><span class="co">#&gt;  [3] "columbia-critical-conservation-areas"</span></span>
+<span><span class="co">#&gt;  [4] "columbia-frequently-flooded"         </span></span>
+<span><span class="co">#&gt;  [5] "columbia-geologic-hazard"            </span></span>
+<span><span class="co">#&gt;  [6] "columbia-wetlands"                   </span></span>
+<span><span class="co">#&gt;  [7] "columbia_change_detect"              </span></span>
+<span><span class="co">#&gt;  [8] "columbia_county_boundary"            </span></span>
+<span><span class="co">#&gt;  [9] "columbia_fema"                       </span></span>
+<span><span class="co">#&gt; [10] "dnr_forest_priority"                 </span></span>
+<span><span class="co">#&gt; [11] "full_lidar_hillshade"                </span></span>
+<span><span class="co">#&gt; [12] "salmon-recovery-portal"              </span></span>
+<span><span class="co">#&gt; [13] "salmon-recovery-projects"            </span></span>
+<span><span class="co">#&gt; [14] "soil_sample_locations_orig"          </span></span>
+<span><span class="co">#&gt; [15] "usda_2011_colored2"                  </span></span>
+<span><span class="co">#&gt; [16] "usda_2024_colored2"                  </span></span>
+<span><span class="co">#&gt; [17] "washington-wria"                     </span></span>
+<span><span class="co">#&gt; [18] "wildfire_perimiters_2023"</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="get-the-layer-that-need-summarized">Get the layer that need summarized<a class="anchor" aria-label="anchor" href="#get-the-layer-that-need-summarized"></a>
 </h2>
 <p>Here we use frequently flooded areas</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">flooded</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_geoserver_layer.html">get_geoserver_layer</a></span><span class="op">(</span><span class="st">"columbia-frequently-flooded"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Attempting to download vector layer <span style="color: #0000BB;">"columbia-frequently-flooded"</span> via WFS</span></span>
@@ -105,7 +132,7 @@
 </h2>
 <p>How many frequently flooded acres are inside each huc 12 watershed in
 Columbia County?</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">columbia_flooded_huc12</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_acres_by_huc12.html">summarize_acres_by_huc12</a></span><span class="op">(</span>huc12 <span class="op">=</span> <span class="va">columbia_huc12</span>,</span>
 <span>                                                   overlay <span class="op">=</span> <span class="va">flooded</span><span class="op">)</span></span>
@@ -117,7 +144,7 @@ Columbia County?</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Acre summary complete.</span></span></code></pre></div>
 <p>returns <code>huc12</code> (numeric code) and <code>acres</code>. If
 you want the watershed name add it</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">columbia_flooded_huc12</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">columbia_huc12</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>                       <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>,<span class="va">huc12</span><span class="op">)</span></span>
@@ -137,6 +164,68 @@ you want the watershed name add it</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 170701020303  412. Wolf Fork                        ((-117.8324 46.18208, -1…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 170701020402  406. Whiskey Creek                    ((-117.9633 46.21827, -1…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 25 more rows</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="lets-try-wetlands">Let’s try wetlands<a class="anchor" aria-label="anchor" href="#lets-try-wetlands"></a>
+</h2>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">wetlands</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_geoserver_layer.html">get_geoserver_layer</a></span><span class="op">(</span><span class="st">"columbia-wetlands"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Attempting to download vector layer <span style="color: #0000BB;">"columbia-wetlands"</span> via WFS</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Layer downloaded: <span style="font-weight: bold;">618</span> features.</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="this-time-we-want-to-stratify-by-wetland-type-within-each-huc-12">This time we want to stratify by wetland type within each huc
+12<a class="anchor" aria-label="anchor" href="#this-time-we-want-to-stratify-by-wetland-type-within-each-huc-12"></a>
+</h2>
+<p>We’ll set the <code>group_vars</code> argument</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">columbia_wetlands_huc12</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_acres_by_huc12.html">summarize_acres_by_huc12</a></span><span class="op">(</span>huc12 <span class="op">=</span> <span class="va">columbia_huc12</span>,overlay <span class="op">=</span> <span class="va">wetlands</span>,group_vars <span class="op">=</span> <span class="st">"WETLAND_TY"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating geometries...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Performing spatial intersection...</span></span>
+<span><span class="co">#&gt; Warning: attribute variables are assumed to be spatially constant throughout</span></span>
+<span><span class="co">#&gt; all geometries</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Summarizing by <span style="color: #0000BB;">"huc12, WETLAND_TY"</span>...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Acre summary complete.</span></span>
+<span></span>
+<span><span class="va">columbia_wetlands_huc12</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 90 × 3</span></span></span>
+<span><span class="co">#&gt;    huc12        WETLAND_TY                         acres</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 170601070807 Lake                              <span style="text-decoration: underline;">1</span>525. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 170601070808 Lake                               924. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 170601070804 Lake                               617. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 170601070704 Freshwater Forested/Shrub Wetland   98.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 170601070608 Freshwater Forested/Shrub Wetland   89.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 170601100102 Lake                                84.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 170701020401 Freshwater Forested/Shrub Wetland   83.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 170701020401 Riverine                            73.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 170601070608 Freshwater Emergent Wetland         68.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 170601070701 Freshwater Forested/Shrub Wetland   54.1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 80 more rows</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="use-a-layer-not-on-geoserver">Use a layer not on Geoserver<a class="anchor" aria-label="anchor" href="#use-a-layer-not-on-geoserver"></a>
+</h2>
+<p>We already have Columbia watersheds to use as aoi (i.e. Area of
+Interest) to automatically subset the layer we are grabbing. In this
+example is using WA DNR Priority areas.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dnr_forest_priority</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gis_from_url.html">get_gis_from_url</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://services.arcgis.com/4x406oNViizbGo13/arcgis/rest/services/Eastern_WA_Forest_Health_Priority_HUC6_Watersheds/FeatureServer/0/query?where=1%3D1&amp;outFields=*&amp;outSR=4326&amp;f=geojson"</span>,aoi <span class="op">=</span> <span class="va">columbia_huc12</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Requesting GIS data from <span style="color: #0000BB; font-style: italic;">&lt;https://services.arcgis.com/4x406oNViizbGo13/arcgis/rest/services/Eastern_WA_Forest_Health_Priority_HUC6_Watersheds/FeatureServer/0/query?where=1%3D1&amp;outFields=*&amp;outSR=4326&amp;f=geojson&amp;geometry=-118.242296322747,45.999086548544,-117.603296305266,46.6246534152626&amp;geometryType=esriGeometryEnvelope&amp;inSR=4326&amp;spatialRel=esriSpatialRelIntersects&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Parsed <span style="font-weight: bold;">38</span> features from GeoJSON.</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span></span>
+<span><span class="va">columbia_forest_priority_huc12</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_acres_by_huc12.html">summarize_acres_by_huc12</a></span><span class="op">(</span>huc12 <span class="op">=</span> <span class="va">columbia_huc12</span>,</span>
+<span>                                                            overlay <span class="op">=</span> <span class="va">dnr_forest_priority</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating geometries...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Performing spatial intersection...</span></span>
+<span><span class="co">#&gt; Warning: attribute variables are assumed to be spatially constant throughout</span></span>
+<span><span class="co">#&gt; all geometries</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Summarizing by <span style="color: #0000BB;">"huc12"</span>...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Acre summary complete.</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

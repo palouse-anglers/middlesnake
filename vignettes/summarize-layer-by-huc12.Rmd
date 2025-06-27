@@ -97,7 +97,7 @@ dnr_forest_priority <- get_gis_from_url(url = "https://services.arcgis.com/4x406
 
 
 columbia_forest_priority_huc12 <- summarize_acres_by_huc12(huc12 = columbia_huc12,
-                                                            overlay = dnr_forest_priority,group_vars = "Priority")
+                                                            overlay = dnr_forest_priority)
 
 ```
 

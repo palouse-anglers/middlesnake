@@ -14,7 +14,8 @@ summarize_acres_by_huc12(
 \arguments{
 \item{huc12}{An sf object representing HUC12 watersheds}
 
-\item{overlay}{An sf object representing layers to be summarized (e.g., wetlands)}
+\item{overlay}{An sf object representing layers to be summarized (e.g., wetlands)
+if overlay is polygon it calculates acres, if point it just returns a count}
 
 \item{huc_id_col}{The name of the column identifying each HUC12 unit (default: "huc12")}
 
