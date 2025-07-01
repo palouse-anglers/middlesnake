@@ -28,3 +28,7 @@
 #' @name crop_codes
 #' @docType data
 "crop_codes"
+
+
+#' @import sf
+NULL
