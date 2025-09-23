@@ -93,7 +93,7 @@ clean_nrcs_data <- function(dataset_path, huc_12_codes) {
 
 
   # ---- Identify duplicate practices ----
-  cli::cli_alert_info("🐍 Middlesnake is hunting for duplicates...")
+  cli::cli_alert_info("Middlesnake is hunting for duplicates...")
 
   duplicated_practices <- nrcs_data %>%
     dplyr::filter(huc12 %in% huc_12_codes) %>%
@@ -126,7 +126,7 @@ clean_nrcs_data <- function(dataset_path, huc_12_codes) {
   # Count flagged rows
   flagged_count <- sum(duplicated_practices$flagged_for_removal == 1, na.rm = TRUE)
 
-  cli::cli_alert_warning("⚠️ Rows removed (dupes by land unit id, practice, year, and amount): {.strong {flagged_count}}")
+  cli::cli_alert_warning("Rows removed (dupes by land unit id, practice, year, and amount): {.strong {flagged_count}}")
 
   duplicated_practices <- duplicated_practices %>%
    filter(flagged_for_removal < 1)
@@ -135,7 +135,7 @@ clean_nrcs_data <- function(dataset_path, huc_12_codes) {
 
   cli::cli_alert_info("Rows remaining in dataset: {.strong {total_rows}}")
 
-  cli::cli_alert_info("🧹 Removing duplicate rows while summing applied_amount...")
+  cli::cli_alert_info("Removing duplicate rows while summing applied_amount...")
 
   nrcs_final <- duplicated_practices %>%
     dplyr::group_by(land_unit_id, practice_code, applied_year) %>%
@@ -145,7 +145,7 @@ clean_nrcs_data <- function(dataset_path, huc_12_codes) {
     dplyr::mutate(applied_amount = group_total_applied_amount) %>%
     dplyr::select(-group_total_applied_amount)
 
-  cli::cli_alert_success("✅ final dataset contains {.strong {nrow(nrcs_final)}} rows.")
+  cli::cli_alert_success("Final dataset contains {.strong {nrow(nrcs_final)}} rows.")
 
   return(nrcs_final)
 

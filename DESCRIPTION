@@ -15,12 +15,15 @@ Imports:
     glue,
     httr,
     janitor,
+    jsonlite,
     readxl,
     sf,
     terra,
     tigris,
     tools,
-    utils
+    units,
+    utils,
+    xml2
 Suggests: 
     dmcognigen,
     DT,
