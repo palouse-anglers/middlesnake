@@ -24,6 +24,8 @@ Imports:
 Suggests: 
     dmcognigen,
     DT,
+    nhdplusTools,
+    leaflet.extras2,
     knitr,
     leaflet,
     rmarkdown
