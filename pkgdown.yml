@@ -1,6 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.1.2
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   nrcs-practices: nrcs-practices.html
-last_built: 2025-05-14T06:53Z
+  side-by-side: side-by-side.html
+  summarize-layer-by-huc12: summarize-layer-by-huc12.html
+  USDA_landuse_by_huc: USDA_landuse_by_huc.html
+  use-geoserver: use-geoserver.html
+last_built: 2025-09-23T05:10Z

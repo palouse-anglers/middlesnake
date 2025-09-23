@@ -16,10 +16,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/nrcs-practices.html">nrcs-practices</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/palouse-anglers/middlesnake/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -46,16 +43,22 @@
 
       <dl><dt>
 
+          <code><a href="assign_wria_to_huc12.html">assign_wria_to_huc12()</a></code>
+
+        </dt>
+        <dd>Assign Each HUC12 Watershed to Its Dominant WRIA</dd>
+      </dl><dl><dt>
+
           <code><a href="clean_nrcs_data.html">clean_nrcs_data()</a></code>
 
         </dt>
         <dd>Clean and Consolidate Duplicated NRCS Practices Data</dd>
       </dl><dl><dt>
 
-          <code><a href="clip_raster_to_county.html">clip_raster_to_county()</a></code>
+          <code><a href="clip_raster_to_cd.html">clip_raster_to_cd()</a></code>
 
         </dt>
-        <dd>Clip a raster to a county in Washington State</dd>
+        <dd>Clip a raster to a Conservation District in Washington State</dd>
       </dl><dl><dt>
 
           <code><a href="convert_esri_dates.html">convert_esri_dates()</a></code>
@@ -64,16 +67,40 @@
         <dd>Convert ESRI Epoch Millisecond Dates to POSIXct</dd>
       </dl><dl><dt>
 
+          <code><a href="crop_codes.html">crop_codes</a></code>
+
+        </dt>
+        <dd>USDA Cropland Data Layer Codes</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_cd_polygon.html">get_cd_polygon()</a></code>
+
+        </dt>
+        <dd>Get Conservation District Boundary Geometry for a Washington County</dd>
+      </dl><dl><dt>
+
           <code><a href="get_county_polygon.html">get_county_polygon()</a></code>
 
         </dt>
         <dd>Get County Boundary Geometry for a Washington County</dd>
       </dl><dl><dt>
 
+          <code><a href="get_geoserver_layer.html">get_geoserver_layer()</a></code>
+
+        </dt>
+        <dd>Load a vector (WFS) or raster (WCS) layer from GeoServer</dd>
+      </dl><dl><dt>
+
           <code><a href="get_gis_from_url.html">get_gis_from_url()</a></code>
 
         </dt>
-        <dd>Download and parse GIS features from an ArcGIS REST GeoJSON URL</dd>
+        <dd>Download and parse GIS features from an ArcGIS REST GeoJSON URL, with optional AOI</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_huc_by_cd.html">get_huc_by_cd()</a></code>
+
+        </dt>
+        <dd>Load Washington HUC Watersheds by Conservation District</dd>
       </dl><dl><dt>
 
           <code><a href="get_swifd_by_county.html">get_swifd_by_county()</a></code>
@@ -92,6 +119,30 @@
 
         </dt>
         <dd>Reclassify CDL raster to 7 generalized NLCD-style land cover groups</dd>
+      </dl><dl><dt>
+
+          <code><a href="show_geoserver_layers.html">show_geoserver_layers()</a></code>
+
+        </dt>
+        <dd>Get List of Layers from Columbia GeoServer</dd>
+      </dl><dl><dt>
+
+          <code><a href="summarize_acres_by_huc12.html">summarize_acres_by_huc12()</a></code>
+
+        </dt>
+        <dd>Summarize Acres of Overlay Features within HUC12 Watersheds</dd>
+      </dl><dl><dt>
+
+          <code><a href="summarize_crops_by_huc12.html">summarize_crops_by_huc12()</a></code>
+
+        </dt>
+        <dd>Summarize Crop Types Within HUC12 Watersheds</dd>
+      </dl><dl><dt>
+
+          <code><a href="swcd_boundaries.html">swcd_boundaries</a></code>
+
+        </dt>
+        <dd>Conservation District Boundaries for Washington State</dd>
       </dl></div>
   </main></div>
 
@@ -101,7 +152,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
