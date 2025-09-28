@@ -17,6 +17,8 @@ get_geoserver_layer(
 \item{workspace}{Workspace name (default: \code{"Columbia"})}
 
 \item{base_url}{Base WFS URL (default: Columbia GeoServer endpoint)}
+
+\item{raster}{Logical indicating whether to return raster data (TRUE) or vector data (FALSE). Default is FALSE.}
 }
 \value{
 An \code{sf} object representing the requested vector layer, or \code{NULL} with a warning if the request fails.

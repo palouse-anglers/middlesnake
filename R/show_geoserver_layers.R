@@ -1,21 +1,19 @@
-#' Get List of Layers from Columbia GeoServer
+#' Show available layers from a GeoServer instance
 #'
-#' This function queries a GeoServer WMS GetCapabilities endpoint and extracts a list of available WMS layer names.
-#' By default, it points to the Columbia County WA workspace.
+#' This function retrieves and displays the available layers from a GeoServer WFS
+#' (Web Feature Service) capabilities document.
 #'
-#' @param capabilities_url A character string specifying the WMS GetCapabilities URL.
-#'   Defaults to the Columbia workspace on your GeoServer:
-#'   \code{"http://142.93.92.104:8080/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"}
+#' @param geoserver_url Character string specifying the base URL of the GeoServer instance
 #'
-#' @return A character vector of layer names (e.g., \code{"Columbia:usda_2024_cropland"}).
+#' @return A character vector of available layer names
+#' @export
 #'
 #' @examples
 #' \dontrun{
-#'
-#' show_geoserver_layers()
+#' # Show available layers
+#' layers <- show_geoserver_layers("http://my-geoserver.com/geoserver")
+#' print(layers)
 #' }
-#'
-#' @export
 show_geoserver_layers <- function(
     geoserver_url = "https://geoserver.megaloptera-data.com/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"
 ) {

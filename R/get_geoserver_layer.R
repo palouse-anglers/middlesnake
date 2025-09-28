@@ -6,6 +6,7 @@
 #' @param layer_name Name of the layer (without workspace prefix)
 #' @param workspace Workspace name (default: `"Columbia"`)
 #' @param base_url Base WFS URL (default: Columbia GeoServer endpoint)
+#' @param raster Logical indicating whether to return raster data (TRUE) or vector data (FALSE). Default is FALSE.
 #'
 #' @return An `sf` object representing the requested vector layer, or `NULL` with a warning if the request fails.
 #'
@@ -28,6 +29,7 @@ get_geoserver_layer <- function(layer_name,
                                 workspace = "Columbia",
                                 base_url = "https://geoserver.megaloptera-data.com/geoserver",
                                 raster = FALSE) {
+
   full_layer <- paste0(workspace, ":", layer_name)
 
   if (!raster) {

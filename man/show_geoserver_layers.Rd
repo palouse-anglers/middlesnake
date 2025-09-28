@@ -2,7 +2,7 @@
 % Please edit documentation in R/show_geoserver_layers.R
 \name{show_geoserver_layers}
 \alias{show_geoserver_layers}
-\title{Get List of Layers from Columbia GeoServer}
+\title{Show available layers from a GeoServer instance}
 \usage{
 show_geoserver_layers(
   geoserver_url =
@@ -10,21 +10,19 @@ show_geoserver_layers(
 )
 }
 \arguments{
-\item{capabilities_url}{A character string specifying the WMS GetCapabilities URL.
-Defaults to the Columbia workspace on your GeoServer:
-\code{"http://142.93.92.104:8080/geoserver/Columbia/wms?service=WMS&version=1.1.0&request=GetCapabilities"}}
+\item{geoserver_url}{Character string specifying the base URL of the GeoServer instance}
 }
 \value{
-A character vector of layer names (e.g., \code{"Columbia:usda_2024_cropland"}).
+A character vector of available layer names
 }
 \description{
-This function queries a GeoServer WMS GetCapabilities endpoint and extracts a list of available WMS layer names.
-By default, it points to the Columbia County WA workspace.
+This function retrieves and displays the available layers from a GeoServer WFS
+(Web Feature Service) capabilities document.
 }
 \examples{
 \dontrun{
-
-show_geoserver_layers()
+# Show available layers
+layers <- show_geoserver_layers("http://my-geoserver.com/geoserver")
+print(layers)
 }
-
 }

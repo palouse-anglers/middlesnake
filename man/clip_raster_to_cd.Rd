@@ -2,36 +2,42 @@
 % Please edit documentation in R/clip_raster_to_cd.R
 \name{clip_raster_to_cd}
 \alias{clip_raster_to_cd}
-\title{Clip a raster to a Conservation District in Washington State}
+\title{Clip raster to conservation district boundary}
 \usage{
 clip_raster_to_cd(path_to_tif, district_name)
 }
 \arguments{
-\item{path_to_tif}{File path to a GeoTIFF raster}
+\item{path_to_tif}{Path to the raster file}
 
-\item{district_name}{Name of the Washington State Conservation District (e.g., "Columbia")}
+\item{district_name}{Name of the conservation district}
 }
 \value{
-A \code{SpatRaster} object cropped and masked to the county boundary
-' @example
-\dontrun{
-
-
-r_mask_2024 <- clip_raster_to_cd("../../../Downloads/2024_30m_cdls/2024_30m_cdls.tif",
-district_name = "Columbia")
-
-terra::writeRaster(
-r_mask_2024,
-filename = "cropland_data_layer_2024.tif",
-overwrite = TRUE,
-filetype = "GTiff",
-gdal = c("COMPRESS=LZW")
-)
-
-
-
-}
+A \code{SpatRaster} object cropped and masked to the conservation district boundary
 }
 \description{
-\link{https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php}
+Clip raster to conservation district boundary
+}
+\examples{
+\dontrun{
+# Download CDL raster for specific year and state
+cdl_raster <- terra::rast("path/to/cdl_raster.tif")
+
+# Load conservation district boundary
+cd_boundary <- sf::st_read("path/to/conservation_district.shp")
+
+# Clip the raster to the conservation district
+clipped_raster <- clip_raster_to_cd("path/to/cdl.tif", "Columbia")
+
+# Plot the result
+terra::plot(clipped_raster)
+
+# Save the clipped raster
+terra::writeRaster(
+  clipped_raster,
+  filename = "cropland_data_layer_2024.tif",
+  overwrite = TRUE,
+  filetype = "GTiff",
+  gdal = c("COMPRESS=LZW")
+)
+}
 }

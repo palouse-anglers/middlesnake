@@ -1,44 +1,46 @@
-#' Clip a raster to a Conservation District in Washington State
+#' Clip raster to conservation district boundary
 #'
-#' @param path_to_tif File path to a GeoTIFF raster
-#' @param district_name Name of the Washington State Conservation District (e.g., "Columbia")
-#' @description
-#' [https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php]
+#' @param path_to_tif Path to the raster file
+#' @param district_name Name of the conservation district
 #'
-#' @return A `SpatRaster` object cropped and masked to the county boundary
-#' ' @example
-#' \dontrun{
-#'
-#'
-#' r_mask_2024 <- clip_raster_to_cd("../../../Downloads/2024_30m_cdls/2024_30m_cdls.tif",
-#' district_name = "Columbia")
-#'
-#' terra::writeRaster(
-#' r_mask_2024,
-#' filename = "cropland_data_layer_2024.tif",
-#' overwrite = TRUE,
-#' filetype = "GTiff",
-#' gdal = c("COMPRESS=LZW")
-#' )
-#'
-#'
-#'
-#' }
+#' @return A `SpatRaster` object cropped and masked to the conservation district boundary
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Download CDL raster for specific year and state
+#' cdl_raster <- terra::rast("path/to/cdl_raster.tif")
+#' 
+#' # Load conservation district boundary
+#' cd_boundary <- sf::st_read("path/to/conservation_district.shp")
+#' 
+#' # Clip the raster to the conservation district
+#' clipped_raster <- clip_raster_to_cd("path/to/cdl.tif", "Columbia")
+#' 
+#' # Plot the result
+#' terra::plot(clipped_raster)
+#' 
+#' # Save the clipped raster
+#' terra::writeRaster(
+#'   clipped_raster,
+#'   filename = "cropland_data_layer_2024.tif",
+#'   overwrite = TRUE,
+#'   filetype = "GTiff",
+#'   gdal = c("COMPRESS=LZW")
+#' )
+#' }
 clip_raster_to_cd <- function(path_to_tif, district_name) {
 
   # Load raster
   r <- terra::rast(path_to_tif)
 
-
   data("swcd_boundaries", package = "middlesnake", envir = environment())
 
   # Filter for the specified county
-  swcd <- swcd_bcoundaries %>%
+  swcd <- swcd_boundaries %>%
     dplyr::mutate(swcd_name = sub(" CD$", "", CNSVDST)) %>%
     dplyr::mutate(swcd_name = sub(" County$", "", swcd_name)) %>%
     dplyr::filter(swcd_name %in% district_name)
-
 
   if (nrow(swcd) == 0) {
     cli::cli_abort("CD '{district_name}' not found in Washington State.")
@@ -68,11 +70,15 @@ clip_raster_to_cd <- function(path_to_tif, district_name) {
 #' @return A new `SpatRaster` with values 1–7 representing generalized land cover categories
 #'         and a category table for labeling and mapping.
 #'
-#' [https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php]
+#' @references \url{https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php}
 #'
-#' ' @example
+#' @examples
 #' \dontrun{
-#'
+#' # Reclassify a CDL raster
+#' cdl_raster <- terra::rast("path/to/cdl.tif")
+#' reclassified <- reclassify_raster(cdl_raster)
+#' 
+#' # Define colors for visualization
 #' category_colors <- c(
 #'   "Row Crops"        = "#FFFF64",  # Cropland yellow
 #'   "Non-Crop Natural" = "#DCD939",  # Grassland/herbaceous
@@ -82,16 +88,17 @@ clip_raster_to_cd <- function(path_to_tif, district_name) {
 #'   "NLCD Natural"     = "#397D49",  # Evergreen forest
 #'   "Other/No Data"    = "#D3D3D3"   # No data
 #' )
-#'
+#' 
+#' # Create leaflet map
 #' leaflet() %>%
-#'  addTiles() %>%
-#'   leaflet::addRasterImage(r_mask_2024, project = TRUE, opacity = 0.7) %>%
+#'   addTiles() %>%
+#'   leaflet::addRasterImage(reclassified, project = TRUE, opacity = 0.7) %>%
 #'   addLegend(
-#'   position = "bottomright",
-#'   colors = category_colors,
-#'   labels = names(category_colors),
-#'   title = "Land Cover 2011",
-#'   opacity = 1
+#'     position = "bottomright",
+#'     colors = category_colors,
+#'     labels = names(category_colors),
+#'     title = "Land Cover 2024",
+#'     opacity = 1
 #'   )
 #' }
 #'

@@ -30,5 +30,23 @@
 "crop_codes"
 
 
+#' Washington State Counties
+#'
+#' A dataset containing boundary polygons for all counties in Washington State.
+#' This data is derived from the US Census Bureau's TIGER/Line shapefiles.
+#'
+#' @format An sf object with 39 rows and the following variables:
+#' \describe{
+#'   \item{GEOID}{Geographic identifier for the county}
+#'   \item{NAME}{County name}
+#'   \item{geometry}{Spatial geometry (polygon boundaries)}
+#' }
+#' @source US Census Bureau TIGER/Line Shapefiles
+#' @references \url{https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html}
+#' @name wa_counties
+#' @docType data
+"wa_counties"
+
+
 #' @import sf
 NULL

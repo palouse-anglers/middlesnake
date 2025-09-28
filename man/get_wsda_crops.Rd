@@ -14,12 +14,11 @@ An sf object with crop sections intersecting the district
 }
 \description{
 See below for source data
-\link{https://agr.wa.gov/departments/land-and-water/natural-resources/agricultural-land-use}
 }
 \examples{
 \dontrun{
 
-crops <- get_wsda_crops("Columbia)
+crops <- get_wsda_crops("Columbia")
 
 crop_colors <- c(
   "Berry" = "#E600AC",
@@ -67,4 +66,7 @@ leaflet(crops) \%>\%
   )
 }
 
+}
+\references{
+\url{https://agr.wa.gov/departments/land-and-water/natural-resources/agricultural-land-use}
 }

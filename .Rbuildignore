@@ -6,4 +6,5 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^inst/extdata/20040101-20240430\ NRCS\ Practices_edited_v3\.xlsx$
 ^vignettes/nrcs-practices\.Rmd$

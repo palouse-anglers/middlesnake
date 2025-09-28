@@ -3,12 +3,12 @@
 #' @param district_name Name of the Washington State Conservation District (e.g., "Columbia")
 #' @return An sf object with crop sections intersecting the district
 #' @description See below for source data
-#' [https://agr.wa.gov/departments/land-and-water/natural-resources/agricultural-land-use]
+#' @references \url{https://agr.wa.gov/departments/land-and-water/natural-resources/agricultural-land-use}
 #'
 #'@examples
 #' \dontrun{
 #'
-#' crops <- get_wsda_crops("Columbia)
+#' crops <- get_wsda_crops("Columbia")
 #'
 #' crop_colors <- c(
 #'   "Berry" = "#E600AC",
@@ -62,11 +62,10 @@ get_wsda_crops <- function(district_name) {
   data("swcd_boundaries", package = "middlesnake", envir = environment())
 
   # Filter for the specified county
-  swcd <- swcd_bcoundaries %>%
+  swcd <- swcd_boundaries %>%
     dplyr::mutate(swcd_name = sub(" CD$", "", CNSVDST)) %>%
     dplyr::mutate(swcd_name = sub(" County$", "", swcd_name)) %>%
     dplyr::filter(swcd_name %in% district_name)
-
 
   if (nrow(swcd) == 0) {
     cli::cli_abort("CD '{district_name}' not found in Washington State.")
@@ -104,7 +103,6 @@ get_wsda_crops <- function(district_name) {
     stop("WSDA request failed. Status: ", status_code(response))
   }
 
-
   invalid <- which(!sf::st_is_valid(crop_data))
 
   if (length(invalid) > 0) {
@@ -114,14 +112,4 @@ get_wsda_crops <- function(district_name) {
   }
 
   return(crops)
-
-
 }
-
-
-
-
-
-
-
-
