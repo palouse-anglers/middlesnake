@@ -28,7 +28,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Reclassify CDL raster to 7 generalized NLCD-style land cover groups</h1>
-      <small class="dont-index">Source: <a href="https://github.com/palouse-anglers/middlesnake/blob/HEAD/R/clip_raster_to_cd.R" class="external-link"><code>R/clip_raster_to_cd.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/palouse-anglers/middlesnake/blob/HEAD/R/clip_raster_to_cd.R" class="external-link"><code>R/clip_raster_to_cd.R</code></a>, <a href="https://github.com/palouse-anglers/middlesnake/blob/HEAD/R/reclassify_raster.R" class="external-link"><code>R/reclassify_raster.R</code></a></small>
       <div class="d-none name"><code>reclassify_raster.Rd</code></div>
     </div>
 
@@ -38,7 +38,9 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reclassify_raster</span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reclassify_raster</span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">reclassify_raster</span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -53,10 +55,77 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A new <code>SpatRaster</code> with values 1–7 representing generalized land cover categories
 and a category table for labeling and mapping.</p>
-<p>https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php</p>
-<p>' @example</p>
+<p>A new <code>SpatRaster</code> with values 1–7 representing generalized land cover categories
+and a category table for labeling and mapping.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p><a href="https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php" class="external-link">https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php</a></p>
+<p><a href="https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php" class="external-link">https://www.nass.usda.gov/Research_and_Science/Cropland/metadata/meta.php</a></p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># Reclassify a CDL raster</span></span></span>
+<span class="r-in"><span><span class="va">cdl_raster</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="st">"path/to/cdl.tif"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">reclassified</span> <span class="op">&lt;-</span> <span class="fu">reclassify_raster</span><span class="op">(</span><span class="va">cdl_raster</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define colors for visualization</span></span></span>
+<span class="r-in"><span><span class="va">category_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"Row Crops"</span>        <span class="op">=</span> <span class="st">"#FFFF64"</span>,  <span class="co"># Cropland yellow</span></span></span>
+<span class="r-in"><span>  <span class="st">"Non-Crop Natural"</span> <span class="op">=</span> <span class="st">"#DCD939"</span>,  <span class="co"># Grassland/herbaceous</span></span></span>
+<span class="r-in"><span>  <span class="st">"Specialty Crops"</span>  <span class="op">=</span> <span class="st">"#A8E6A0"</span>,  <span class="co"># Orchard/vineyard</span></span></span>
+<span class="r-in"><span>  <span class="st">"Developed"</span>        <span class="op">=</span> <span class="st">"#FF0000"</span>,  <span class="co"># High intensity development</span></span></span>
+<span class="r-in"><span>  <span class="st">"Water"</span>            <span class="op">=</span> <span class="st">"#476BA1"</span>,  <span class="co"># Open water</span></span></span>
+<span class="r-in"><span>  <span class="st">"NLCD Natural"</span>     <span class="op">=</span> <span class="st">"#397D49"</span>,  <span class="co"># Evergreen forest</span></span></span>
+<span class="r-in"><span>  <span class="st">"Other/No Data"</span>    <span class="op">=</span> <span class="st">"#D3D3D3"</span>   <span class="co"># No data</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create leaflet map</span></span></span>
+<span class="r-in"><span><span class="fu">leaflet</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">addTiles</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/leaflet/reference/addRasterImage.html" class="external-link">addRasterImage</a></span><span class="op">(</span><span class="va">reclassified</span>, project <span class="op">=</span> <span class="cn">TRUE</span>, opacity <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">addLegend</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    position <span class="op">=</span> <span class="st">"bottomright"</span>,</span></span>
+<span class="r-in"><span>    colors <span class="op">=</span> <span class="va">category_colors</span>,</span></span>
+<span class="r-in"><span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">category_colors</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    title <span class="op">=</span> <span class="st">"Land Cover 2024"</span>,</span></span>
+<span class="r-in"><span>    opacity <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># Reclassify a CDL raster</span></span></span>
+<span class="r-in"><span><span class="va">cdl_raster</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="st">"path/to/cdl.tif"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">reclassified</span> <span class="op">&lt;-</span> <span class="fu">reclassify_raster</span><span class="op">(</span><span class="va">cdl_raster</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define colors for visualization</span></span></span>
+<span class="r-in"><span><span class="va">category_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"Row Crops"</span>        <span class="op">=</span> <span class="st">"#FFFF64"</span>,  <span class="co"># Cropland yellow</span></span></span>
+<span class="r-in"><span>  <span class="st">"Non-Crop Natural"</span> <span class="op">=</span> <span class="st">"#DCD939"</span>,  <span class="co"># Grassland/herbaceous</span></span></span>
+<span class="r-in"><span>  <span class="st">"Specialty Crops"</span>  <span class="op">=</span> <span class="st">"#A8E6A0"</span>,  <span class="co"># Orchard/vineyard</span></span></span>
+<span class="r-in"><span>  <span class="st">"Developed"</span>        <span class="op">=</span> <span class="st">"#FF0000"</span>,  <span class="co"># High intensity development</span></span></span>
+<span class="r-in"><span>  <span class="st">"Water"</span>            <span class="op">=</span> <span class="st">"#476BA1"</span>,  <span class="co"># Open water</span></span></span>
+<span class="r-in"><span>  <span class="st">"NLCD Natural"</span>     <span class="op">=</span> <span class="st">"#397D49"</span>,  <span class="co"># Evergreen forest</span></span></span>
+<span class="r-in"><span>  <span class="st">"Other/No Data"</span>    <span class="op">=</span> <span class="st">"#D3D3D3"</span>   <span class="co"># No data</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create leaflet map</span></span></span>
+<span class="r-in"><span><span class="fu">leaflet</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">addTiles</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/leaflet/reference/addRasterImage.html" class="external-link">addRasterImage</a></span><span class="op">(</span><span class="va">reclassified</span>, project <span class="op">=</span> <span class="cn">TRUE</span>, opacity <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">addLegend</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    position <span class="op">=</span> <span class="st">"bottomright"</span>,</span></span>
+<span class="r-in"><span>    colors <span class="op">=</span> <span class="va">category_colors</span>,</span></span>
+<span class="r-in"><span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">category_colors</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    title <span class="op">=</span> <span class="st">"Land Cover 2024"</span>,</span></span>
+<span class="r-in"><span>    opacity <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -11,6 +11,7 @@
 <url><loc>/LICENSE-text.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
 <url><loc>/reference/assign_wria_to_huc12.html</loc></url>
+<url><loc>/reference/clean_bmp_data.html</loc></url>
 <url><loc>/reference/clean_nrcs_data.html</loc></url>
 <url><loc>/reference/clip_raster_to_cd.html</loc></url>
 <url><loc>/reference/clip_raster_to_county.html</loc></url>
@@ -30,5 +31,6 @@
 <url><loc>/reference/summarize_acres_by_huc12.html</loc></url>
 <url><loc>/reference/summarize_crops_by_huc12.html</loc></url>
 <url><loc>/reference/swcd_boundaries.html</loc></url>
+<url><loc>/reference/wa_counties.html</loc></url>
 </urlset>
 
