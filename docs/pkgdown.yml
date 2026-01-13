@@ -2,9 +2,10 @@ pandoc: '3.2'
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
+  annual-reporting: annual-reporting.html
   nrcs-practices: nrcs-practices.html
   side-by-side: side-by-side.html
   summarize-layer-by-huc12: summarize-layer-by-huc12.html
   USDA_landuse_by_huc: USDA_landuse_by_huc.html
   use-geoserver: use-geoserver.html
-last_built: 2025-12-10T07:25Z
+last_built: 2026-01-13T06:19Z

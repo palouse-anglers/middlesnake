@@ -1,0 +1,245 @@
+---
+title: "annual reporting"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{summarize-layer-by-huc12}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEval{FALSE}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(middlesnake)
+library(dplyr)
+library(sf)
+```
+
+
+# Source File NRCS data
+
+Provided via email from WA Conservation Commission  
+**20040101-20240430 NRCS Practices_edited_v3.xlsx**  
+
+Duplicated records were removed using `middlesnake::clean_nrcs_data()`
+
+
+# Source File CPDES 
+
+Provided via email from Columbia CD  
+**ColumbiaProjectsReport.xlsx**
+Duplicated records were removed using `middlesnake::clean_bmp_data()`  
+
+## add HUC12 watersheds to CPDS
+```{r, eval=FALSE}
+
+# Load Columbia HUC12 Shapefile
+columbia_huc_12 <- st_read("../../../Documents/all_columbia_huc_12s.shp")
+
+
+clean_bmps_sf <- st_as_sf(
+    clean_bmps,
+    coords = c("longitude", "latitude"),
+    crs = 4326,
+    remove = FALSE
+)
+
+pts_huc12 <- st_join(
+   clean_bmps_sf,
+    columbia_huc_12,
+    join = st_within,
+    left = TRUE
+)
+
+
+```
+
+# Load Data
+
+```{r, eval=FALSE}
+
+# load cleaned NRCS
+clean_nrcs <- data.table::fread("../../../Downloads/clean_nrcs_practices.csv") %>%
+    mutate(timepoint=case_when(
+        applied_year %in% 2011:2020 ~"2011-2020",
+        applied_year %in% 2021:2025 ~"2021-2025",
+        TRUE ~ NA_character_)
+    )
+
+# load cleaned CPDS
+clean_bmps <- data.table::fread("../../../Downloads/clean_bmps_sf_with_huc.csv")%>%
+    mutate(date=lubridate::mdy(completion_date),
+        year = year(date),
+        timepoint=case_when(
+        year %in% 2011:2020 ~"2011-2020",
+        year %in% 2021:2025 ~"2021-2025",
+        TRUE ~ NA_character_
+        ))
+    
+
+# load reporting codes
+reporting_codes <- data.table::fread("../../../Downloads/reporting_codes_2025_12_20.csv") %>%
+  arrange(Code) %>%
+  distinct( Name, Code,Acres)
+
+```
+# NRCS by program
+
+```{r, eval=FALSE}
+
+nrcs_by_program <- 
+reporting_codes %>%
+    distinct(Code) %>%
+    purrr::map_dfr(~ clean_nrcs %>%
+                   filter(!is.na(timepoint),
+                          practice_code %in% c(.x)
+                          ) %>%
+                   group_by(timepoint,program,
+                            practice_code,practice_name,
+                            measurement_unit) %>%
+                   summarise(
+                   n=n(),
+                   min=min(applied_year),
+                   max=max(applied_year),
+                   sum_applied_amount=sum(applied_amount),
+                   sum_land_unit_acres=sum(land_unit_acres)) %>%
+                   arrange(practice_code)
+               ) 
+data.table::fwrite(nrcs_by_program ,file = "../../../Downloads/nrcs_by_program.csv")
+
+```
+
+
+
+```{r, eval=FALSE}
+nrcs_total  <- 
+reporting_codes %>%
+    distinct(Code) %>%
+    purrr::map_dfr(~ clean_nrcs %>%
+                   filter(!is.na(timepoint),
+                          practice_code %in% c(.x)
+                          ) %>%
+                   group_by(timepoint,practice_code,practice_name) %>%
+                   summarise(
+                   n=n(),
+                   min=min(applied_year),
+                   max=max(applied_year),
+                   sum_applied_amount=sum(applied_amount),
+                   sum_land_unit_acres=sum(land_unit_acres)) %>%
+                   arrange(practice_code)
+               )
+
+# data.table::fwrite(nrcs_total,file = "../../../Downloads/nrcs_total.csv")
+
+```
+
+
+
+# CSP 
+
+
+```{r, eval=FALSE}
+
+pest_management <- clean_nrcs %>%
+    filter(program=="CStwP", str_detect(practice_name,"Pest")) %>%
+    distinct(land_unit_id,practice_code,applied_amount,.keep_all = TRUE) %>%
+    group_by(program, practice_name,practice_code) %>%
+    summarise(sum=sum(applied_amount)) %>%
+    arrange(practice_code) %>%
+    data.frame()
+
+
+```
+
+```{r, eval=FALSE}
+pest_management_csp <- pest_management %>%
+  filter(program=="CStwP")
+```
+
+# CPDS BMPs
+```{r, eval=FALSE}
+
+clean_bmps %>%
+cnt(program,program_type) %>%
+data.frame()
+
+```
+
+
+# CPDS Access Control (472)
+```{r, eval=FALSE}
+
+cdps_totals <-reporting_codes %>%
+    distinct(Code) %>%
+    purrr::map_dfr(~ clean_bmps %>%
+                       filter(!is.na(timepoint),
+                              value >0, 
+                              nrcs_code %in% c(.x)
+                       ) %>%
+                       group_by(timepoint,nrcs_code,measurement,units,bmp_name) %>%
+                       summarise(sum=sum(value))%>%
+                       arrange(nrcs_code)
+                   )
+
+data.table::fwrite(cdps_totals,file = "../../../Downloads/cdps_totals.csv")
+
+
+cdps_program <- reporting_codes %>%
+    distinct(Code) %>%
+    purrr::map_dfr(~ clean_bmps %>%
+                       filter(!is.na(timepoint),
+                              value >0, 
+                              nrcs_code %in% c(.x)
+                       ) %>%
+                       group_by(timepoint,nrcs_code,measurement,
+                                units,bmp_name,program,program_type) %>%
+                       summarise(sum=sum(value))%>%
+                       arrange(nrcs_code)
+                   )
+
+data.table::fwrite(cdps_program,file = "../../../Downloads/cdps_program.csv")
+
+
+
+
+clean_bmps %>% 
+    mutate(date=lubridate::mdy(completion_date),
+           year = year(date))%>%
+    filter(nrcs_code %in% 472) %>%
+    group_by(units) %>%
+   summarise(sum=sum(value))
+
+
+
+clean_bmps_cpds <- clean_bmps %>% 
+    mutate(date=lubridate::mdy(completion_date),
+           year = year(date)) %>%
+    filter(nrcs_code %in% 590) %>%
+    mutate(timepoint=case_when(
+        year %in% 2011:2020 ~"2011-2020",
+        year %in% 2021:2025 ~"2021-2025",
+        TRUE ~ NA_character_)
+        )
+
+```
+
+
+```{r, eval=FALSE}
+nrcs_to_report_on <- clean_nrcs %>%
+    filter(practice_code %in% reporting_codes$Code) %>%
+    dmcognigen::cnt(practice_code,practice_name)
+```
+
+```{r}
+
+sessionInfo()
+
+```
+
+

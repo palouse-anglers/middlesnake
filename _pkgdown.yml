@@ -15,6 +15,9 @@ articles:
   - title: "NRCS Practices"
     contents:
       - nrcs-practices  # From vignettes/nrcs-practices.Rmd
+  - title: "BMP Processing"
+    contents:
+      - annual-reporting
 
   - title: "USDA Crop Layer Compare"
     contents:
